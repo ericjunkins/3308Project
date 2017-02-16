@@ -23,20 +23,24 @@ Mitigation Stragety:
 
 List of Requirements:
   6 User Stories
-  
-    As a user I want to be able to remotely turn on and off the device for the conveinence of having controls all in one place.
+    ID#:01
+    As a devoper I want to write an app to access the bluetooth functionality of the phone to send signals wirelessly
         Size: ~6hr
-    As a developer I want to be able to choose between bluetooth to have a general purpose bluetooth selection program
+    ID#:11
+    As a devloper I want to write a Raspberry pi program to read blutooth signals sent from the phone to establish communication from       phone to device. 
+        Size ~6hr
+    ID#:02
+    As a developer I want to be able to translate actions on app to correct signals sent to motors
         Size: ~8hr
-    As a developer I want to convert bluetooth signals to desired motor output to have control over the device
+    ID#:12
+    As a developer I want to convert signals from raspberry pi to motor control to be able to move the device
         Size: ~8hr
+    ID#:03
+    As a user I want to be have access to features like remote start/turn off, battery life of device etc, for conveinence sake 
+        Size: ~6hr
+    ID#:04
     As a user I want to have the app organized in an easy to use and clear fashion for the purpose of ease to use
-        Size: ~4hr
-    As a user I want to be able to know how much battery life is left on my RC device 
-        Size: ~6hr
-    As a developer I want to be able to translate sensitivty of joystick movement from app to movement of the device
-        Size: ~8hr
-  
+        Size: ~4hr  
   
 Metholodogy: Agile, plan to work in small incrimenets in which at the end of we have a working product that fufills that stages processes
 
@@ -45,5 +49,5 @@ Project Tracking Software:
 
 Project Plan:
 
-  COME FROM PROJECT TRACKING SOFTWARE AS WELL
+  Plan on project tracking software, link above. 
 
