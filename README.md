@@ -23,6 +23,7 @@ Mitigation Stragety:
 
 List of Requirements:
   6 User Stories
+  
     ID#:01
     As a devoper I want to write an app to access the bluetooth functionality of the phone to send signals wirelessly
         Size: ~6hr
