@@ -26,6 +26,10 @@ import java.util.ArrayList;
 import java.util.Set;
 import java.util.UUID;
 
+import android.os.Handler;
+import java.io.InputStream;
+import java.io.OutputStream;
+
 import static android.content.ContentValues.TAG;
 
 public class MainActivity extends Activity  {
