@@ -1,5 +1,6 @@
 import time
 import RPi.GPIO as GPIO
+#from _future_ import division
 
 #Test script for motor control signals
 
@@ -25,22 +26,23 @@ def base_signal():
 	print 'low signal end' , time.ctime()
 	GPIO.cleanup()
 	
-def turn_right(x):
+def turn(x):
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(14,GPIO.OUT)
-        for i in range(0,100):
-                try:
-                        pulseLen = 1.5-(0.5*(x/100))
-                        #print 'high signal start', time.ctime()
-                        GPIO.output(14,True)
-                        time.sleep(pulseLen/ms_units)
-                        #print 'high signal end', time.ctime()
-                        GPIO.output(14,False)
-                        time.sleep((entire_cycle - pulseLen)/ms_units)
-                        #print 'low signal stop', time.ctime()
-                except KeyboardInterrupt:
-                        GPIO.cleanup()
-	
+        pulseLen = float(1.5)-(float(0.5)*((float(x)/float(100))))
+        #print pulseLen
+        try:
+                #print 'high signal start', time.ctime()
+                GPIO.output(14,True)
+                time.sleep(pulseLen/ms_units)
+                #print 'high signal end', time.ctime()
+                GPIO.output(14,False)
+                time.sleep(((entire_cycle - pulseLen -.2)/ms_units))
+                #print 'low signal stop', time.ctime()
+        except KeyboardInterrupt:
+                GPIO.cleanup()
+                
+
 
 def turn_left(x):
         GPIO.setmode(GPIO.BCM)
@@ -91,7 +93,7 @@ def ThrottleUp(x):
         GPIO.setup(14,GPIO.OUT)
         for i in range(0,100):
                 try:
-                        T = 1/127
+                        T = 10
                         pulseLen = 0.2*(T)
                         #print 'high signal start', time.ctime()
                         GPIO.output(14,True)
@@ -121,6 +123,10 @@ def mytest():
                         GPIO.cleanup()
 
 
-#mytest()
+for i in range(0,100):
+        turn(i)
+for i in range(0,100):
+        turn(-i)
+turn(0)        
 
-turn_left(100)
+
