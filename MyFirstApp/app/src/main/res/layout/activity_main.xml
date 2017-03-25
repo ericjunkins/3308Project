@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    tools:context="com.example.lerrrrmps.myfirstapp.MainActivity"
+    android:weightSum="1">
+
+    <LinearLayout
+            android:layout_width="80dp"
+            android:layout_height="615dp"
+            android:orientation="vertical">
+        <Button
+            android:text="BREAK"
+            android:layout_width="130dp"
+            android:layout_height="50dp"
+            android:id="@+id/button3"
+            android:rotation="90"
+            android:layout_marginLeft="-30dp"
+            android:layout_marginTop="50dp"
+            android:backgroundTint="@android:color/holo_red_dark" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:rotation="90"
+                android:text="Velocity:"
+                android:layout_marginTop="100dp"
+                android:textSize="20dp"
+                android:textColor="@android:color/black" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:rotation="90"
+                android:text="Steering:"
+                android:textSize="20dp"
+                android:layout_marginTop="135dp"
+                android:textColor="@android:color/black" />
+            <Button
+                android:layout_width="130dp"
+                android:layout_height="50dp"
+                android:text="Voice Command"
+                android:rotation="90"
+                android:layout_marginLeft="-30dp"
+                android:layout_marginTop="130dp"
+                android:backgroundTint="@android:color/holo_blue_bright"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="230dp"
+        android:layout_height="615dp"
+        android:orientation="vertical">
+
+        <com.example.lerrrrmps.myfirstapp.ControlStickViewRight
+            android:layout_width="fill_parent"
+            android:layout_height="150dp"
+            android:id ="@+id/testJoystickRight"
+            android:layout_marginRight="0dp"
+            android:layout_marginLeft="0dp" />
+
+        <TextView
+            android:layout_width="305dp"
+            android:layout_height="315dp"
+            android:background="@android:color/darker_gray"/>
+
+        <com.example.lerrrrmps.myfirstapp.ControlStickView
+            android:layout_width="fill_parent"
+            android:layout_height="150dp"
+            android:id ="@+id/testJoystickLeft"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="75dp"
+        android:layout_height="615dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:rotation="90"
+            android:text="THROTTLE"
+            android:layout_marginTop="50dp"
+            android:textSize="14dp"
+            android:textColor="@android:color/black" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:rotation="90"
+            android:text="STEERING"
+            android:textSize="14dp"
+            android:layout_marginTop="455dp"
+            android:textColor="@android:color/black"/>
+
+    </LinearLayout>
+
+</LinearLayout>
+
+
+
+
+
+
+
+
