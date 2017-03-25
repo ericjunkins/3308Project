@@ -1,4 +1,6 @@
 package com.example.vilok.rc_car;
+import android.content.BroadcastReceiver;
+import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.app.Activity;
@@ -8,43 +10,56 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.widget.CompoundButton;
+import android.widget.Switch;
+import android.widget.TextView;
 
+import com.example.sairamkrishna.myapplication.R;
+
+import java.util.List;
 
 
 public class MainActivity extends Activity {
-    WifiManager mainWifiObj = (WifiManager) getSystemService(Context.WIFI_SERVICE);;
-
-    class WifiScanReceiver extends BroadcastReceiver {
-        public void onReceive(Context c, Intent intent) {
-        }
-    }
-    WifiScanReceiver wifiReciever = new WifiScanReceiver();
-    registerReceiver(wifiReciever, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
-    List<ScanResult> wifiScanList = mainWifiObj.getScanResults();
-    String data = wifiScanList.get(0).toString();
-    Button enableButton,disableButton;
+    Switch aSwitch;
+    TextView textView;
+    WifiManager wifiManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        enableButton=(Button)findViewById(R.id.button1);
-        disableButton=(Button)findViewById(R.id.button2);
-
-        enableButton.setOnClickListener(new OnClickListener(){
-            public void onClick(View v){
-                WifiManager wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
-                wifi.setWifiEnabled(true);
+        aSwitch = (Switch)findViewById(R.id.myswitch);
+        wifiManager = (WifiManager) getSystemService(WIFI_SERVICE);
+        textView = (TextView)findViewById(R.id.textView);
+        //Register Switch for event handling
+        aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked && !wifiManager.isWifiEnabled()){
+                    wifiManager.setWifiEnabled(true);
+                }
+                //Switch Off
+                else if(!isChecked && wifiManager.isWifiEnabled()){
+                    wifiManager.setWifiEnabled(false);
+                }
             }
         });
-
-
-        disableButton.setOnClickListener(new OnClickListener(){
-            public void onClick(View v){
-                WifiManager wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
-                wifi.setWifiEnabled(false);
-            }
-        });
+        MyBroadCastReciever myBroadCastReciever = new MyBroadCastReciever();
+        // Register broadcast reciever
+        registerReceiver(myBroadCastReciever, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
     }
+
+    class MyBroadCastReciever extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            StringBuffer stringBuffer = new StringBuffer();
+            List<ScanResult> list = wifiManager.getScanResults();
+            for(ScanResult scanResult : list){
+                stringBuffer.append(scanResult);
+            }
+            textView.setText(stringBuffer);
+        }
+    }
+
 
 }
