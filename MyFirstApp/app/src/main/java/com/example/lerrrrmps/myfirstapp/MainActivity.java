@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+
 import com.example.lerrrrmps.myfirstapp.ControlStickView;
 
 import org.w3c.dom.Text;
@@ -26,6 +27,9 @@ public class MainActivity extends AppCompatActivity implements ControlStickView.
     private ControlStickViewRight controlStickViewRight;
     Server server;
     TextView infoip, msg;
+    TextView response;
+	EditText editTextAddress, editTextPort;
+	Button buttonConnect, buttonClear;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +45,31 @@ public class MainActivity extends AppCompatActivity implements ControlStickView.
         msg = (TextView) findViewById(R.id.msg);
         server = new Server(this);
         infoip.setText(server.getIpAddress()+":"+server.getPort());
+        
+        editTextAddress = (EditText) findViewById(R.id.addressEditText);
+		editTextPort = (EditText) findViewById(R.id.portEditText);
+		buttonConnect = (Button) findViewById(R.id.connectButton);
+		buttonClear = (Button) findViewById(R.id.clearButton);
+		response = (TextView) findViewById(R.id.responseTextView);
+
+		buttonConnect.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				Client myClient = new Client(editTextAddress.getText()
+						.toString(), Integer.parseInt(editTextPort
+						.getText().toString()), response);
+				myClient.execute();
+			}
+		});
+
+		buttonClear.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				response.setText("");
+			}
+		});
 
 
     }
