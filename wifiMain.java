@@ -1,6 +1,7 @@
 package com.example.vilok.rc_car;
 import android.content.BroadcastReceiver;
 import android.net.wifi.ScanResult;
+import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.app.Activity;
@@ -30,6 +31,13 @@ public class MainActivity extends Activity {
         aSwitch = (Switch)findViewById(R.id.myswitch);
         wifiManager = (WifiManager) getSystemService(WIFI_SERVICE);
         textView = (TextView)findViewById(R.id.textView);
+        WifiConfiguration wifiConfig = new WifiConfiguration();
+        wifiConfig.SSID = String.format("\"%s\"", ssid);
+        wifiConfig.preSharedKey = String.format("\"%s\"", key);
+        int netId = wifiManager.addNetwork(wifiConfig);
+        wifiManager.disconnect();
+        wifiManager.enableNetwork(netId, true);
+        wifiManager.reconnect();
         //Register Switch for event handling
         aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
