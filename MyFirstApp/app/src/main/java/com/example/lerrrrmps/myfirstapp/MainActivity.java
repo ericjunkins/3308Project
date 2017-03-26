@@ -24,6 +24,8 @@ public class MainActivity extends AppCompatActivity implements ControlStickView.
     private Context context;
     private ControlStickView controlStickView;
     private ControlStickViewRight controlStickViewRight;
+    Server server;
+    TextView infoip, msg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,8 +37,18 @@ public class MainActivity extends AppCompatActivity implements ControlStickView.
         controlStickView = new ControlStickView(context);
         controlStickViewRight = new ControlStickViewRight(context);
         setContentView(R.layout.activity_main);
+        infoip = (TextView) findViewById(R.id.infoip);
+        msg = (TextView) findViewById(R.id.msg);
+        server = new Server(this);
+        infoip.setText(server.getIpAddress()+":"+server.getPort());
 
 
+    }
+    
+    @Override
+    protected void onDestroy() {
+        MainActivity.super.onDestroy();
+        server.onDestroy();
     }
 
     @Override
