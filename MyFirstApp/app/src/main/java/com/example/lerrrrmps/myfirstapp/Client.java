@@ -1,74 +1,69 @@
 package com.example.vilok.rc_car;
 
+import java.net.Socket;
+import java.io.InputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.Socket;
+import java.io.PrintWriter;
+import java.io.ObjectInputStream;
 import java.net.UnknownHostException;
-import android.os.AsyncTask;
-import android.widget.TextView;
+import java.util.ArrayList;
 
-public class Client extends AsyncTask<Void, Void, Void> {
+class Client{
 
-    String dstAddress;
-    int dstPort;
-    String response = "";
-    TextView textResponse;
-
-    Client(String addr, int port,TextView textResponse) {
-        dstAddress = addr;
-        dstPort = port;
-        this.textResponse=textResponse;
-    }
-
-    @Override
-    protected Void doInBackground(Void... arg0) {
-
-        Socket socket = null;
-
-        try {
-            socket = new Socket(dstAddress, dstPort);
-
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream(
-                    1024);
-            byte[] buffer = new byte[1024];
-
-            int bytesRead;
-            InputStream inputStream = socket.getInputStream();
-
-			/*
-			 * notice: inputStream.read() will block if no data return
-			 */
-            while ((bytesRead = inputStream.read(buffer)) != -1) {
-                byteArrayOutputStream.write(buffer, 0, bytesRead);
-                response += byteArrayOutputStream.toString("UTF-8");
-            }
-
-        } catch (UnknownHostException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-            response = "UnknownHostException: " + e.toString();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-            response = "IOException: " + e.toString();
-        } finally {
-            if (socket != null) {
-                try {
-                    socket.close();
-                } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-            }
+    public static void main(String args[])
+    {
+        if(args.length == 0){
+            System.out.println("usage: java client <port>");
+            System.exit(1);
         }
-        return null;
+
+        int port = isParseInt(args[0]);
+        if(port == -1){
+            System.out.println("usage: java client <port>");
+            System.out.println("<port>: integer");
+            System.exit(1);
+        }
+
+        try{
+            //IP is hard coded
+            //port is user entry
+            Socket socket = new Socket("192.168.111.109", port);
+
+            ArrayList<String> myList;
+
+            ObjectInputStream objectInputStream =
+                    new ObjectInputStream(socket.getInputStream());
+            try{
+                Object object = objectInputStream.readObject();
+                myList = (ArrayList<String>)object;
+
+                for (String s : myList) {
+                    System.out.println(s);
+                }
+
+            }catch(ClassNotFoundException ex){
+                System.out.println(ex.toString());
+            }
+
+            socket.close();
+        }catch(UnknownHostException e){
+            System.out.println(e.toString());
+        }catch(IOException e){
+            System.out.println(e.toString());
+        }
+
     }
 
-    @Override
-    protected void onPostExecute(Void result) {
-        textResponse.setText(response);
-        super.onPostExecute(result);
+    private static int isParseInt(String str){
+
+        int num = -1;
+        try{
+            num = Integer.parseInt(str);
+        } catch (NumberFormatException e) {
+        }
+
+        return num;
     }
 
 }
