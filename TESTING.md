@@ -9,11 +9,14 @@ Automated Tests: ((Explanation and Screenshot))
 User Acceptance Tests: See Below
 
 Part 1:
+
 	Usage:
+
 		sudo pigpiod (note: requires RaspberryPi to run)
 		python UnitTest.py 
 
 	Output of Tests:
+	
 		All tests OK
 
 Part 2:
