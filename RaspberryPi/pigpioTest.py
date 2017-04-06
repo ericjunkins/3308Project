@@ -3,91 +3,356 @@
 import time
 import pigpio
 
+
+#sudokillall pigpiod 88888
+#sudo pigpiod
+#pigs pigpv
+#pigs hwver
+
 wid =0
 
-def turn(x):
-	if (x >=-100 and x <=100):
-		GPIO =21
-		square=[]
-		pi = pigpio.pi()
-		pi.set_mode(GPIO,pigpio.OUTPUT)
-		pulseLen = float(1.5)+(float(0.5)*(float(x)/float(100)))
-		square.append(pigpio.pulse(1<<GPIO,0,pulseLen*1000))
-		square.append(pigpio.pulse(0,1<<GPIO,(10 - pulseLen)*1000))
+class TextProcError(Exception):
+        def _init_(self,msg):
 
-		pi.wave_add_generic(square)
+                super().__init__(msg)
 
-		wid = pi.wave_create()
+class RcFuncs:
+                
+        def __init__(self,num):
+                if type(num) is not int:
+                        raise TextProcError("Requires int")
+                self.num = num
 
-		if wid	>= 0:
-			pi.wave_send_repeate(wid)
-			time.sleep(float(1)/float(10))
-			pi.wave_tx_stop()
-			pi.wave__delete(wid)
 
-			pi.stop
+        def turn(self):
+                x = self.num
+                if (x >=-100 and x <=100):
+                        GPIO =23
+                        square=[]
+                        pi = pigpio.pi()
+                        pi.set_mode(GPIO,pigpio.OUTPUT)
+                        pulseLen = float(1.5)+(float(0.5)*(float(x)/float(100)))
+                        square.append(pigpio.pulse(1<<GPIO,0,pulseLen*1000))
+                        square.append(pigpio.pulse(0,1<<GPIO,(10 - pulseLen)*1000))
+                        #print pulseLen
+                        pi.wave_add_generic(square)
+
+                        wid = pi.wave_create()
+
+                        if wid	>= 0:
+                                pi.wave_send_repeat(wid)
+                                time.sleep(float(1)/float(10))
+                                pi.wave_tx_stop()
+                                pi.wave_delete(wid)
+
+                                pi.stop
+                                
+                        return pulseLen
+        
+
+        def throttle(self):
+                x = self.num
+                if(x >=-100 and x<=100):
+                        GPIO=14
+                        square1=[]
+                        square2=[]
+                        pi = pigpio.pi()
+                        pi.set_mode(GPIO,pigpio.OUTPUT)
+
+                        square1.append(pigpio.pulse(1<<GPIO,0,1.5*1000))
+                        square1.append(pigpio.pulse(0,1<<GPIO,8.5*1000))
+
+                        pi.wave_add_generic(square1)
+
+                        wid = pi.wave_create()
+
+                        if wid >=0:
+                                pi.wave_send_repeat(wid)
+                                time.sleep(float(1)/float(10))
+                                pi.wave_tx_stop()
+                                pi.wave_delete(wid)
+
+                        pulseLen = float(1.5)+(float(0.5)*(float(x)/float(100)))
+                        square2.append(pigpio.pulse(1<<GPIO,0,pulseLen*1000))
+                        square2.append(pigpio.pulse(0,1<<GPIO,(10 - pulseLen)*1000))
+
+                        pi.wave_add_generic(square2)
+
+                        wid = pi.wave_create()
+
+                        if wid >=0:
+                                pi.wave_send_repeat(wid)
+                                try:
+                                        time.sleep(float(0.5))
+                                        pi.wave_tx_stop()
+                                        pi.wave_delete(wid)
+                                except KeyboardInterrupt:
+                                        pi.wave_tx_stop()
+                                        pi.wave_delete(wid)
+                                        print 'keyboard stopped'
+                                        mybreak(GPIO)
+                                        pi.stop
+
+                return pulseLen
+
+
+
+        def RC(x,y,z):
+                if(x >=-100 and x<=100 and y >=-100 and y <= 100 and (z==0 or z==1)):
+                        thrPin=14
+                        stPin=21
+                        thrBase=[]
+                        thrSig=[]
+                        stSig=[]
+                        thrPi = pigpio.pi()
+                        thrPi.set_mode(thrPin,pigpio.OUTPUT)
+                        stPi = pigpio.pi()
+                        stPi.set_mode(stPin,pigpio.OUTPUT)
+                        #initialize the first signal to send to the throttle motor
+                        
+                        thrBase.append(pigpio.pulse(1<<thrPin,0,1.5*1000))
+                        thrBase.append(pigpio.pulse(0,1<<thrPin,8.5*1000))
+
+                        thrPi.wave_add_generic(thrBase)
+
+                        thrWid = thrPi.wave_create()
+
+                        if thrWid >=0:
+                                thrPi.wave_send_repeat(thrWid)
+                                time.sleep(float(1)/float(10))
+                                thrPi.wave_tx_stop()
+                                thrPi.wave_delete(thrWid)
+
+                        thrPulseLen = float(1.5)+(float(0.5)*(float(x)/float(100)))
+                        thrSig.append(pigpio.pulse(1<<thrPin,0,thrPulseLen*1000))
+                        thrSig.append(pigpio.pulse(0,1<<thrPin,(10 - thrPulseLen)*1000))
+
+                        stPulseLen = float(1.5)+ (float(0.5)*(float(x)/float(100)))
+                        stSig.append(pigpio.pulse(1<<stPin,0,stPulseLen*1000))
+                        stSig.append(pigpio.pulse(0,1<<stPin,(10-stPulseLen)*1000))
+
+                        
+                        thrPi.wave_add_generic(thrSig)
+                        stPi.wave_add_generic(stSig)
+                        
+
+                        thrWid = thrPi.wave_create()
+                        
+                        stWid = stPi.wave_create()
+                        
+                        if (thrWid >=0 and stWid >=0):
+                                thrPi.wave_send_repeat(thrWid)
+                                stPi.wave_send_repeat(stWid)
+                                try:
+                                        time.sleep(float(0.5))
+                                        thrPi.wave_tx_stop()
+                                        thrPi.wave_delete(thrWid)
+                                        stPi.wave_tx_stop()
+                                        stPi.wave_delete(stWid)
+                                except KeyboardInterrupt:
+                                        thrPi.wave_tx_stop()
+                                        thrPi.wave_delete(thrWid)
+                                        stPi.wave_tx_stop()
+                                        stPi.wave_delete(stWid)
+                                        print 'keyboard stopped'
+                                        mybreak(thrPin)
+                                        thrPi.stop
+                                        stPi.stop
+                
+
+        def mybreak(pin):
+                bGPIO=pin
+                bsquare=[]
+                bpi = pigpio.pi()
+                bpi.set_mode(bGPIO,pigpio.OUTPUT)
+
+                bsquare.append(pigpio.pulse(1<<bGPIO,0,1.5*1000))
+                bsquare.append(pigpio.pulse(0,1<<bGPIO,8.5*1000))
+
+                bpi.wave_add_generic(bsquare)
+
+                bwid = bpi.wave_create()
+                if bwid >=0:
+                        bpi.wave_send_repeat(bwid)
+                        time.sleep(float(1)/float(2))
+                        bpi.wave_tx_stop()
+                        bpi.wave_delete(bwid)
+                bpi.stop
+                
 
 
 def throttle(x):
-	if(x >=-100 and x<=100):
-		GPIO=14
-		square1=[]
-		square2=[]
-		pi = pigpio.pi()
-		pi.set_mode(GPIO,pigpio.OUTPUT)
+        if(x >=-100 and x<=100):
+                GPIO=14
+                square1=[]
+                square2=[]
+                pi = pigpio.pi()
+                pi.set_mode(GPIO,pigpio.OUTPUT)
 
-		square1.append(pigpio.pulse(1<<GPIO,0,1.5*1000))
-		square1.append(pigpio.pulse(0,1<<GPIO,8.5*1000))
+                square1.append(pigpio.pulse(1<<GPIO,0,1.5*1000))
+                square1.append(pigpio.pulse(0,1<<GPIO,8.5*1000))
 
-		pi.wave_add_generic(square1)
+                pi.wave_add_generic(square1)
 
-		wid = pi.wave_create(wid)
+                wid = pi.wave_create()
 
-		if wid >=0:
-			pi.wave_send_repeate(wid)
-			time.sleep(float(1)/float(10))
-			pi.wave_tx_stop()
-			pi.wave__delete(wid)
+                if wid >=0:
+                        pi.wave_send_repeat(wid)
+                        time.sleep(float(1)/float(10))
+                        pi.wave_tx_stop()
+                        pi.wave_delete(wid)
 
-		pulseLen = float(1.5)+(float(0.5)*(float(x)/float(100)))
-		square2.append(pigpio.pulse(1<<GPIO,0,pulseLen*1000))
-		square2.append(pigpio.pulse(0,1<<GPIO,(10 - pulseLen)*1000))
+                pulseLen = float(1.5)+(float(0.5)*(float(x)/float(100)))
+                square2.append(pigpio.pulse(1<<GPIO,0,pulseLen*1000))
+                square2.append(pigpio.pulse(0,1<<GPIO,(10 - pulseLen)*1000))
+                pi.wave_add_generic(square2)
+                print pulseLen
+                wid = pi.wave_create()
 
-		pi.wave_add_generic(square2)
+                if wid >=0:
+                        pi.wave_send_repeat(wid)
+                        try:
+                                time.sleep(float(0.5))
+                                pi.wave_tx_stop()
+                                pi.wave_delete(wid)
+                        except KeyboardInterrupt:
+                                pi.wave_tx_stop()
+                                pi.wave_delete(wid)
+                                print 'keyboard stopped'
+                                mybreak(GPIO)
+                                pi.stop
 
-		wid = pi.wave_create()
 
-		if wid >=0:
-			pi.wave_send_repeate(wid)
-			try:
-				time.sleep(float(0.5))
-				pi.wave_tx_stop()
-				pi.wave__delete(wid)
-			except KeyboardInterrupt:
-				pi.wave_tx_stop()
-				pi.wave__delete(wid)
-				print 'keyboard stopped'
-				mybreak(GPIO)
-				pi.stop
 
-def mybreak(pin):
-	bGPIO=pin
-	bsquare=[]
-	bpi = pigpio.pi()
-	bpi.set_mode(bGPIO,pigpio.OUTPUT)
+def turn(x):
+        if (x >=-100 and x <=100):
+                GPIO = 23
+                square=[]
+                pi = pigpio.pi()
+                pi.set_mode(GPIO,pigpio.OUTPUT)
+                pulseLen = float(1.5)+(float(0.5)*(float(x)/float(100)))
+                square.append(pigpio.pulse(1<<GPIO,0,pulseLen*1000))
+                square.append(pigpio.pulse(0,1<<GPIO,(10 - pulseLen)*1000))
+                print pulseLen
+                pi.wave_add_generic(square)
 
-	bsquare.append(pigpio.pulse(1<<bGPIO,0,1.3*1000))
-	bsquare.append(pigpio.pulse(0,1<<bGPIO,8.7*1000))
+                wid = pi.wave_create()
 
-	bpi.wave_add_generic(bsquare)
+                if wid	>= 0:
+                        pi.wave_send_repeat(wid)
+                        time.sleep(float(1)/float(10))
+                        pi.wave_tx_stop()
+                        pi.wave_delete(wid)
 
-	bwid = bpi.wave_create()
-	if bwid >=0:
-		bpi.wave_send_repeate(bwid)
-		time.sleep(float(1)/float(2))
-		bpi.wave_tx_stop()
-		bpi.wave__delete(bwdq)
-	bpi.stop		
+                        pi.stop
+                #return pulseLen
+
+
+class rcFull:
+
+        def __init__(self,num1,num2,num3):
+                if type(num1) is not int:
+                        raise TextProcError("Requires int")
+                if type(num2) is not int:
+                        raise TextProcError("Requires int")
+                if type(num3) is not int:
+                        raise TextProcError("Requires int")
+                self.num1 = num1
+                self.num2 = num2
+                self.num3 = num3
+
+        
+        def RC(self):
+                x = self.num1
+                y = self.num2
+                z = self.num3
+                if(x >=-100 and x<=100 and y >=-100 and y <= 100 and (z==0 or z==1)):
+                        thrPin=14
+                        stPin=21
+                        thrBase=[]
+                        thrSig=[]
+                        stSig=[]
+                        thrPi = pigpio.pi()
+                        thrPi.set_mode(thrPin,pigpio.OUTPUT)
+                        stPi = pigpio.pi()
+                        stPi.set_mode(stPin,pigpio.OUTPUT)
+                        #initialize the first signal to send to the throttle motor
+                        
+                        thrBase.append(pigpio.pulse(1<<thrPin,0,1.5*1000))
+                        thrBase.append(pigpio.pulse(0,1<<thrPin,8.5*1000))
+
+                        thrPi.wave_add_generic(thrBase)
+
+                        thrWid = thrPi.wave_create()
+
+                        if thrWid >=0:
+                                thrPi.wave_send_repeat(thrWid)
+                                time.sleep(float(1)/float(10))
+                                thrPi.wave_tx_stop()
+                                thrPi.wave_delete(thrWid)
+
+                        thrPulseLen = float(1.5)+(float(0.5)*(float(x)/float(100)))
+                        thrSig.append(pigpio.pulse(1<<thrPin,0,thrPulseLen*1000))
+                        thrSig.append(pigpio.pulse(0,1<<thrPin,(10 - thrPulseLen)*1000))
+
+                        stPulseLen = float(1.5)+ (float(0.5)*(float(y)/float(100)))
+                        stSig.append(pigpio.pulse(1<<stPin,0,stPulseLen*1000))
+                        stSig.append(pigpio.pulse(0,1<<stPin,(10-stPulseLen)*1000))
+
+                        
+                        thrPi.wave_add_generic(thrSig)
+                        stPi.wave_add_generic(stSig)
+                        
+
+                        #thrWid = thrPi.wave_create()
+                        
+                        stWid = stPi.wave_create()
+                        
+                        if (thrWid >=0 and stWid >=0):
+                                thrPi.wave_send_repeat(thrWid)
+                                stPi.wave_send_repeat(stWid)
+                                try:
+                                        time.sleep(float(0.5))
+                                        #thrPi.wave_tx_stop()
+                                        #thrPi.wave_delete(thrWid)
+                                        stPi.wave_tx_stop()
+                                        stPi.wave_delete(stWid)
+                                except KeyboardInterrupt:
+                                        thrPi.wave_tx_stop()
+                                        thrPi.wave_delete(thrWid)
+                                        stPi.wave_tx_stop()
+                                        stPi.wave_delete(stWid)
+                                        print 'keyboard stopped'
+                                        mybreak(thrPin)
+                                        thrPi.stop
+                                        stPi.stop
+
+                else:
+                        print "Usage: x,y between -100 and 100, z either 1 or 0"
+                return (thrPulseLen, stPulseLen, z)
+
+
+        
+        def mybreak(pin):
+                bGPIO=pin
+                bsquare=[]
+                bpi = pigpio.pi()
+                bpi.set_mode(bGPIO,pigpio.OUTPUT)
+
+                bsquare.append(pigpio.pulse(1<<bGPIO,0,1.5*1000))
+                bsquare.append(pigpio.pulse(0,1<<bGPIO,8.5*1000))
+
+                bpi.wave_add_generic(bsquare)
+
+                bwid = bpi.wave_create()
+                if bwid >=0:
+                        bpi.wave_send_repeat(bwid)
+                        time.sleep(float(1)/float(2))
+                        bpi.wave_tx_stop()
+                        bpi.wave_delete(bwid)
+                bpi.stop
+                return 1.5
+
 
 for i in range(0,100,5):
 	turn(i)
@@ -100,14 +365,11 @@ for i in range(20,25):
 for i in range(20,25):
 	throttle(-i)
 
-
-
-
-
-
-
-
-
+'''
+for i in range(20,25):
+        #throttle(i)
+        turn(i)
+'''
 
 
 
