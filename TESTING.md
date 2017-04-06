@@ -1,7 +1,11 @@
 Who: Joseph Wroe, Eric Junkins, Vilok, JC
+
 Title: RC Car
+
 Vision: Easy access to remote control devices from mobile devices.
+
 Automated Tests: ((Explanation and Screenshot))
+
 User Acceptance Tests: See Below
 
 Part 1:
