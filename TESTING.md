@@ -1,4 +1,6 @@
 Who: Joseph Wroe, Eric Junkins, Vilok, JC
+Link to video: https://drive.google.com/open?id=0B2JzKWjdzNc9TGdRck9pVTVnSW8
+Picture of the Terminal after run also included in this directory
 
 Title: RC Car
 
