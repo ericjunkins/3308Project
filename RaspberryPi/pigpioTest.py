@@ -180,27 +180,29 @@ class RcFuncs:
                 bpi.stop
                 
 
-
-def throttle(x):
+pi2 = pigpio.pi()
+pi2.set_mode(14,pigpio.OUTPUT)
+def throttle(x,pi):
         if(x >=-100 and x<=100):
+                pi.wave_tx_stop()
                 GPIO=14
                 square1=[]
                 square2=[]
                 pi = pigpio.pi()
                 pi.set_mode(GPIO,pigpio.OUTPUT)
+                if x <= 0:
+                        square1.append(pigpio.pulse(1<<GPIO,0,1.5*1000))
+                        square1.append(pigpio.pulse(0,1<<GPIO,8.5*1000))
 
-                square1.append(pigpio.pulse(1<<GPIO,0,1.5*1000))
-                square1.append(pigpio.pulse(0,1<<GPIO,8.5*1000))
+                        pi.wave_add_generic(square1)
 
-                pi.wave_add_generic(square1)
+                        wid = pi.wave_create()
 
-                wid = pi.wave_create()
-
-                if wid >=0:
-                        pi.wave_send_repeat(wid)
-                        time.sleep(float(1)/float(10))
-                        pi.wave_tx_stop()
-                        pi.wave_delete(wid)
+                        if wid >=0:
+                                pi.wave_send_repeat(wid)
+                                time.sleep(float(1)/float(20))
+                                pi.wave_tx_stop()
+                                pi.wave_delete(wid)
 
                 pulseLen = float(1.5)+(float(0.5)*(float(x)/float(100)))
                 square2.append(pigpio.pulse(1<<GPIO,0,pulseLen*1000))
@@ -213,39 +215,39 @@ def throttle(x):
                         pi.wave_send_repeat(wid)
                         try:
                                 time.sleep(float(0.5))
-                                pi.wave_tx_stop()
+                                #pi.wave_tx_stop()
                                 pi.wave_delete(wid)
                         except KeyboardInterrupt:
-                                pi.wave_tx_stop()
-                                pi.wave_delete(wid)
-                                print 'keyboard stopped'
-                                mybreak(GPIO)
-                                pi.stop
+                                throttle(0,pi)
+
+                return pi
 
 
+pi1 = pigpio.pi()
+pi1.set_mode(23,pigpio.OUTPUT)
 
-def turn(x):
+def turn(x,pi):
         if (x >=-100 and x <=100):
+                pi.wave_tx_stop()
                 GPIO = 23
                 square=[]
-                pi = pigpio.pi()
-                pi.set_mode(GPIO,pigpio.OUTPUT)
                 pulseLen = float(1.5)+(float(0.5)*(float(x)/float(100)))
                 square.append(pigpio.pulse(1<<GPIO,0,pulseLen*1000))
                 square.append(pigpio.pulse(0,1<<GPIO,(10 - pulseLen)*1000))
-                print pulseLen
                 pi.wave_add_generic(square)
-
+                print pulseLen
                 wid = pi.wave_create()
-
-                if wid	>= 0:
-                        pi.wave_send_repeat(wid)
-                        time.sleep(float(1)/float(10))
-                        pi.wave_tx_stop()
-                        pi.wave_delete(wid)
-
-                        pi.stop
-                #return pulseLen
+                try:
+                        if wid	>= 0:
+                                pi.wave_send_repeat(wid)
+                                time.sleep(float(1)/float(10))
+                                #time.sleep(1)
+                                #pi.wave_tx_stop()
+                                pi.wave_delete(wid)
+                                pi.stop
+                except KeyboardInterrupt:
+                        turn(0,pi)
+                return pi
 
 
 class rcFull:
@@ -353,24 +355,31 @@ class rcFull:
                 bpi.stop
                 return 1.5
 
+for i in range(0,100,5):
+	turn(i,pi1)
 
 for i in range(0,100,5):
-	turn(i)
-for i in range(0,100,5):
-	turn(-i)
-turn(0)
+	turn(-i,pi1)
+turn(0,pi1)
 
+'''
+while True:
+        turn(80,pi1)
+'''
 for i in range(20,25):
-	throttle(i)
+	throttle(i,pi2)
+	print pi2
+	
 for i in range(20,25):
-	throttle(-i)
+	throttle(-i,pi2)
+
+throttle(0,pi2)
 
 '''
 for i in range(20,25):
         #throttle(i)
         turn(i)
 '''
-
 
 
 

@@ -28,15 +28,15 @@ def base_signal():
 	
 def turn(x):
         GPIO.setmode(GPIO.BCM)
-        GPIO.setup(14,GPIO.OUT)
+        GPIO.setup(23,GPIO.OUT)
         pulseLen = float(1.5)-(float(0.5)*((float(x)/float(100))))
         #print pulseLen
         try:
                 #print 'high signal start', time.ctime()
-                GPIO.output(14,True)
+                GPIO.output(23,True)
                 time.sleep(pulseLen/ms_units)
                 #print 'high signal end', time.ctime()
-                GPIO.output(14,False)
+                GPIO.output(23,False)
                 time.sleep(((entire_cycle - pulseLen -.2)/ms_units))
                 #print 'low signal stop', time.ctime()
         except KeyboardInterrupt:
@@ -122,11 +122,13 @@ def mytest():
                 except KeyboardInterrupt:
                         GPIO.cleanup()
 
-
+'''
 for i in range(0,100):
         turn(i)
 for i in range(0,100):
         turn(-i)
-turn(0)        
+'''
 
+while (True):
+        turn(0)        
 
