@@ -180,8 +180,30 @@ class RcFuncs:
                 bpi.stop
                 
 
+
+
+
 pi2 = pigpio.pi()
 pi2.set_mode(14,pigpio.OUTPUT)
+base_thr = []
+base_thr.append(pigpio.pulse(1<<14,0,1.5*1000))
+base_thr.append(pigpio.pulse(0,1<<14, 8.5*1000))
+pi2.wave_add_generic(base_thr)
+th_wid = pi2.wave_create()
+if th_wid >= 0:
+        pi2.wave_send_repeat(th_wid)
+
+
+pi1 = pigpio.pi()
+pi1.set_mode(23,pigpio.OUTPUT)
+base_st = []
+base_st.append(pigpio.pulse(1<<23,0,1.5*1000))
+base_st.append(pigpio.pulse(0,1<<23, 8.5*1000))
+pi2.wave_add_generic(base_st)
+st_wid = pi1.wave_create()
+if st_wid >= 0:
+        pi1.wave_send_repeat(st_wid)
+
 def throttle(x,pi):
         if(x >=-100 and x<=100):
                 pi.wave_tx_stop()
@@ -208,7 +230,6 @@ def throttle(x,pi):
                 square2.append(pigpio.pulse(1<<GPIO,0,pulseLen*1000))
                 square2.append(pigpio.pulse(0,1<<GPIO,(10 - pulseLen)*1000))
                 pi.wave_add_generic(square2)
-                print pulseLen
                 wid = pi.wave_create()
 
                 if wid >=0:
@@ -223,8 +244,7 @@ def throttle(x,pi):
                 return pi
 
 
-pi1 = pigpio.pi()
-pi1.set_mode(23,pigpio.OUTPUT)
+
 
 def turn(x,pi):
         if (x >=-100 and x <=100):
@@ -235,7 +255,6 @@ def turn(x,pi):
                 square.append(pigpio.pulse(1<<GPIO,0,pulseLen*1000))
                 square.append(pigpio.pulse(0,1<<GPIO,(10 - pulseLen)*1000))
                 pi.wave_add_generic(square)
-                print pulseLen
                 wid = pi.wave_create()
                 try:
                         if wid	>= 0:
@@ -368,7 +387,6 @@ while True:
 '''
 for i in range(20,25):
 	throttle(i,pi2)
-	print pi2
 	
 for i in range(20,25):
 	throttle(-i,pi2)
