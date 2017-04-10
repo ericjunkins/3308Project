@@ -49,9 +49,9 @@
                 android:backgroundTint="@android:color/holo_blue_bright"/>
     </LinearLayout>
     <LinearLayout
-        android:layout_width="230dp"
         android:layout_height="615dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_width="100dp">
 
         <com.example.lerrrrmps.myfirstapp.ControlStickViewRight
             android:layout_width="fill_parent"
@@ -59,12 +59,12 @@
             android:id ="@+id/testJoystickRight"
             android:layout_marginRight="0dp"
             android:layout_marginLeft="0dp" />
-
+        <!--
         <TextView
             android:layout_width="305dp"
             android:layout_height="315dp"
             android:background="@android:color/darker_gray"/>
-
+        -->
         <com.example.lerrrrmps.myfirstapp.ControlStickView
             android:layout_width="fill_parent"
             android:layout_height="150dp"
@@ -72,9 +72,9 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="75dp"
         android:layout_height="615dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_width="200dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -83,10 +83,69 @@
             android:text="THROTTLE"
             android:layout_marginTop="50dp"
             android:textSize="14dp"
-            android:textColor="@android:color/black" />
+            android:textColor="@android:color/black"
+            />
+        <!--
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:autoLink="web"
+            android:text="http://androidSRC.net/"
+            android:textStyle="bold"
+            android:rotation="90"
+            android:layout_marginTop="25dp"
+            android:layout_marginBottom="25dp"
+            android:textSize="10dp"/>
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/addressEditText"
+            android:hint="Server ip address"
+            android:rotation="90"
+            android:layout_marginTop="25dp"
+            android:layout_marginBottom="25dp"
+            android:textSize="10dp"/>
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/portEditText"
+            android:hint="Server port number"
+            android:rotation="90"
+            android:layout_marginTop="25dp"
+            android:layout_marginBottom="25dp"
+            android:textSize="10dp"/>
+        -->
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/connectButton"
+            android:text="Connect..."
+            android:rotation="90"
+            android:layout_marginTop="45dp"
+            android:layout_marginBottom="25dp"
+            android:textSize="10dp"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/clearButton"
+            android:text="Clear"
+            android:rotation="90"
+            android:layout_marginTop="25dp"
+            android:layout_marginBottom="25dp"
+            android:textSize="10dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/responseTextView"
+            android:rotation="90"
+            android:layout_marginTop="25dp"
+            android:layout_marginBottom="25dp"
+            android:textSize="10dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="300dp"
             android:rotation="90"
             android:text="STEERING"
             android:textSize="14dp"

@@ -19,17 +19,24 @@ import com.example.lerrrrmps.myfirstapp.ControlStickView;
 
 import org.w3c.dom.Text;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
+
 import static android.provider.AlarmClock.EXTRA_MESSAGE;
 
 public class MainActivity extends AppCompatActivity implements ControlStickView.JoystickListener{
     private Context context;
     private ControlStickView controlStickView;
     private ControlStickViewRight controlStickViewRight;
-    Server server;
+
     TextView infoip, msg;
     TextView response;
 	EditText editTextAddress, editTextPort;
 	Button buttonConnect, buttonClear;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,27 +50,36 @@ public class MainActivity extends AppCompatActivity implements ControlStickView.
         setContentView(R.layout.activity_main);
         infoip = (TextView) findViewById(R.id.infoip);
         msg = (TextView) findViewById(R.id.msg);
-        server = new Server(this);
-        infoip.setText(server.getIpAddress()+":"+server.getPort());
-        
+
         editTextAddress = (EditText) findViewById(R.id.addressEditText);
 		editTextPort = (EditText) findViewById(R.id.portEditText);
 		buttonConnect = (Button) findViewById(R.id.connectButton);
 		buttonClear = (Button) findViewById(R.id.clearButton);
 		response = (TextView) findViewById(R.id.responseTextView);
 
-		buttonConnect.setOnClickListener(new OnClickListener() {
+		buttonConnect.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View arg0) {
-				Client myClient = new Client(editTextAddress.getText()
-						.toString(), Integer.parseInt(editTextPort
-						.getText().toString()), response);
+                int port = 5002;
+				ericClient myClient = new ericClient("127.0.1.1", 5002, response);
 				myClient.execute();
-			}
+
+                /*
+                try {
+                    Socket socket = new Socket("192.168.42.14",5002);
+                    DataOutputStream DOS = new DataOutputStream(socket.getOutputStream());
+                    DOS.writeUTF("HELLO WORLD!");
+                    socket.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                */
+
+            }
 		});
 
-		buttonClear.setOnClickListener(new OnClickListener() {
+		buttonClear.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
@@ -73,13 +89,13 @@ public class MainActivity extends AppCompatActivity implements ControlStickView.
 
 
     }
-    
+    /*
     @Override
     protected void onDestroy() {
         MainActivity.super.onDestroy();
         server.onDestroy();
     }
-
+    */
     @Override
     public void onJoystickMoved(float xPercent, float yPercent, int source) {
         Log.d("Main Method", "X percent: " + xPercent + "Y percent: " + yPercent);

@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.lerrrrmps.myfirstapp">
-    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
     <application
         android:allowBackup="true"
@@ -18,7 +20,11 @@
         </activity>
         <activity android:name=".JoystickView" />
         <activity android:name=".ControlScreen" />
-        <activity android:name=".ControlStickViewRight"></activity>
+        <activity android:name=".ControlStickViewRight" />
+        <activity
+            android:name=".ericClient"
+            android:label="@string/title_activity_eric_client"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>
