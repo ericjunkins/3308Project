@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.widget.TextView;
 
 import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.Socket;
@@ -29,7 +30,8 @@ public class ericClient extends AsyncTask<Object, Object, String> {
 
         try {
             socket = new Socket(dstAddress, dstPort);
-
+            DataOutputStream DOS = new DataOutputStream(socket.getOutputStream());
+            DOS.writeUTF("100,80,-60");
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream(
                     1024);
             byte[] buffer = new byte[1024];
@@ -44,6 +46,7 @@ public class ericClient extends AsyncTask<Object, Object, String> {
                 byteArrayOutputStream.write(buffer, 0, bytesRead);
                 response += byteArrayOutputStream.toString("UTF-8");
             }
+
 
         } catch (UnknownHostException e) {
             // TODO Auto-generated catch block

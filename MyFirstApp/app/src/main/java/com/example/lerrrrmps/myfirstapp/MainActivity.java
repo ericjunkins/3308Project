@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements ControlStickView.
 			@Override
 			public void onClick(View arg0) {
                 int port = 5002;
-				ericClient myClient = new ericClient("127.0.1.1", 5002, response);
+				ericClient myClient = new ericClient("192.168.42.1", 5005, response);
 				myClient.execute();
 
                 /*
@@ -89,13 +89,8 @@ public class MainActivity extends AppCompatActivity implements ControlStickView.
 
 
     }
-    /*
-    @Override
-    protected void onDestroy() {
-        MainActivity.super.onDestroy();
-        server.onDestroy();
-    }
-    */
+
+
     @Override
     public void onJoystickMoved(float xPercent, float yPercent, int source) {
         Log.d("Main Method", "X percent: " + xPercent + "Y percent: " + yPercent);
