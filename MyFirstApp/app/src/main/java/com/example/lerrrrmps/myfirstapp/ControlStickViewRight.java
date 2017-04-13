@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -17,24 +18,30 @@ public class ControlStickViewRight extends SurfaceView implements SurfaceHolder.
     private float centerY;
     private float baseRadius;
     private float hatRadius;
-    //public JoystickListener joystickCallback;
+    public JoystickListener joystickCallback;
 
     public ControlStickViewRight(Context context){
         super(context);
         getHolder().addCallback(this);
         setOnTouchListener(this);
+        if(context instanceof JoystickListener)
+            joystickCallback = (JoystickListener) context;
     }
 
     public ControlStickViewRight(Context context, AttributeSet attributes, int style){
         super(context,attributes,style);
         getHolder().addCallback(this);
         setOnTouchListener(this);
+        if(context instanceof JoystickListener)
+            joystickCallback = (JoystickListener) context;
     }
 
     public ControlStickViewRight(Context context, AttributeSet attributes){
         super(context, attributes);
         getHolder().addCallback(this);
         setOnTouchListener(this);
+        if(context instanceof JoystickListener)
+            joystickCallback = (JoystickListener) context;
     }
 
     @Override
@@ -96,25 +103,28 @@ public class ControlStickViewRight extends SurfaceView implements SurfaceHolder.
     public boolean onTouch(View view, MotionEvent myEvent){
         if (view.equals(this)) {
             if (myEvent.getAction() != myEvent.ACTION_UP) {
-                float displacement = (float) Math.sqrt(Math.pow(myEvent.getX() - centerX, 2)+ Math.pow(myEvent.getY() - centerY,2));
+                float displacement = (float) Math.sqrt(Math.pow(myEvent.getX() - centerX, 2));
+                //Log.d("maths","CX: " + centerX + " CY: " + centerY + "base radius" + baseRadius);
                 if (displacement < baseRadius) {
-                    drawJoystick(centerX, myEvent.getY());
-                    ///joystickCallback.onJoystickMoved((myEvent.getX() - centerX) / baseRadius, (myEvent.getY() - centerY) / baseRadius, getId());
+                    drawJoystick(myEvent.getX(), centerY);
+                    joystickCallback.onJoystickMoved((myEvent.getX() - centerX)/baseRadius, (myEvent.getY() - centerY)/baseRadius, getId());
                 }
                 else{
                     float ratio = baseRadius/displacement;
                     float constrainedX = centerX + (myEvent.getX()-centerX)*ratio;
                     float constrainedY = centerY + (myEvent.getY()-centerY)*ratio;
-                    drawJoystick(centerX,constrainedY);
+                    drawJoystick(constrainedX,centerY);
+                    joystickCallback.onJoystickMoved((constrainedX-centerX)/baseRadius, (constrainedY-centerY)/baseRadius, getId());
                 }
             } else {
                 drawJoystick(centerX, centerY);
+                joystickCallback.onJoystickMoved(0,0,getId());
             }
         }
         return true;
     }
 
     public interface JoystickListener {
-        void onJoystickMoved(float xPercent, float yPercent, int source);
+        void onJoystickMoved(float xPercent, float yPercent, int id);
     }
 }

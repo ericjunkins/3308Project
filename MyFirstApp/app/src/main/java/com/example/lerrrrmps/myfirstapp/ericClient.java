@@ -32,6 +32,7 @@ public class ericClient extends AsyncTask<Object, Object, String> {
             socket = new Socket(dstAddress, dstPort);
             DataOutputStream DOS = new DataOutputStream(socket.getOutputStream());
             DOS.writeUTF("100,80,-60");
+            DOS.writeUTF("100,80,-60");
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream(
                     1024);
             byte[] buffer = new byte[1024];

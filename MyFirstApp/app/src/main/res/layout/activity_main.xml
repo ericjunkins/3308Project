@@ -56,9 +56,10 @@
         <com.example.lerrrrmps.myfirstapp.ControlStickViewRight
             android:layout_width="fill_parent"
             android:layout_height="150dp"
-            android:id ="@+id/testJoystickRight"
+            android:id ="@+id/JoystickRight"
             android:layout_marginRight="0dp"
-            android:layout_marginLeft="0dp" />
+            android:layout_marginLeft="0dp"
+            />
 
         <TextView
             android:layout_width="305dp"
@@ -68,7 +69,7 @@
         <com.example.lerrrrmps.myfirstapp.ControlStickView
             android:layout_width="fill_parent"
             android:layout_height="150dp"
-            android:id ="@+id/testJoystickLeft"/>
+            android:id ="@+id/JoystickLeft"/>
     </LinearLayout>
 
     <LinearLayout
