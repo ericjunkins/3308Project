@@ -9,13 +9,13 @@ import os
 import socket
 
 '''
-This file is for running the RC car. It will create a wifi socket and listen on
-that socket for data coming from the app.
+This file is for running the RC car. It will create a wifi socket and listen on that socket for data coming from the 
+app.
 '''
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#                            INITILIZATION
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#                                                      INITILIZATION
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 '''
 data.txt will be used to store previous state of the motor signals sent,
 which we will initialize to 0 for both throttle and steering
@@ -30,8 +30,7 @@ pi1 = pigpio.pi()
 #steering is done on pin 23
 pi1.set_mode(23,pigpio.OUTPUT)
 
-#stop signals on pin 23 in case there is some when file started. Keeps from
-#raspberry pi crashing
+#stop signals on pin 23 in case there is some when file started. Keeps from raspberry pi crashing
 pi1.wave_tx_stop()
 base_st = []
 
@@ -44,8 +43,7 @@ if st_wid >= 0:
         #repeate this signal until told something else
         pi1.wave_send_repeat(st_wid)
 
-#create in instance of pigpio class, pi2 will be used to control throttle
-#everything else same as for the steering. 
+#create in instance of pigpio class, pi2 will be used to control throttle everything else same as for the steering. 
 pi2 = pigpio.pi()
 pi2.set_mode(14,pigpio.OUTPUT)
 pi2.wave_tx_stop()
@@ -57,8 +55,9 @@ th_wid = pi2.wave_create()
 if th_wid >= 0:
         pi2.wave_send_repeat(th_wid)
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#                                             DATA RECEIVE OVER WIFI SOCKET
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 #ip address of the raspberry pi, and port chosen
 HOST = "192.168.42.1"
@@ -79,8 +78,7 @@ while 1:
         
         if not data: break
 
-        #print "recieved data:", data, len(data)
-        #data incoming is in the form of a CSV string
+        #print "recieved data:", data, len(data) data incoming is in the form of a CSV string
         dataSplit = data.split(",")
 
         #data should be of these lengths depending on the values sent from app
@@ -99,21 +97,17 @@ while 1:
                         oldMove = int(oldDataSplit[0])
                         oldSteer = int(oldDataSplit[1])
                         '''
-                        #if the values of the old and new move or steer are
-                        #different than functions the respective funtions must
-                        #be called and values of old steer and new steer to be
-                        #updated
+                        #if the values of the old and new move or steer are different than functions the respective 
+                        #funtions must be called and values of old steer and new steer to be updated
                         '''
 
-                        ##!! TO DO move is set to half its max values, for
-                        #testing purposes, it eventually its full value
+                        # TODO move is set to half its max values, for testing purposes, it eventually its full value
                         if (oldSteer != steer and oldMove != move):
                                 os.remove("data.txt")
                                 fnew = open("data.txt", "w")
                                 fnew.write(str(move) + "," + str(steer))
 
-                                #sig = 1 means both steering and moved have
-                                #already been dealt with, dont need below calls
+                                #sig = 1 means both steering and moved have already been dealt with, dont need below calls
                                 sig = 1
                                 
                                 fnew.close()
