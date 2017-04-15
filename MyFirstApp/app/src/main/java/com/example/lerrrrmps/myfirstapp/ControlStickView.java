@@ -1,5 +1,6 @@
 package com.example.lerrrrmps.myfirstapp;
 
+import android.annotation.SuppressLint;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -57,12 +58,13 @@ public class ControlStickView extends SurfaceView implements SurfaceHolder.Callb
     }
 
     private void setupDimensions(){
-        centerX = getWidth() / (float)1.5;
+        centerX = getWidth() / 2;
         centerY = getHeight() / 2;
         baseRadius = Math.min(getWidth(), getHeight()) / 3;
-        hatRadius = Math.min(getWidth(), getHeight()) / 5;
+        hatRadius = Math.min(getWidth(), getHeight()) / 4;
     }
 
+    @SuppressLint("NewApi")
     private void drawJoystick(float newX, float newY){
         int alpha = 255;
         int red = 100;
@@ -80,8 +82,7 @@ public class ControlStickView extends SurfaceView implements SurfaceHolder.Callb
 
             for (int i = 1; i <= 100; i++) {
                 colors.setARGB(100 , i*(255/100) , i* (255/100) , i* (255/100));
-                myCanvas.drawCircle(centerX, centerY, i*baseRadius/100, colors);
-            }
+                myCanvas.drawOval(centerX - getWidth()/4, centerY + getHeight()/3, centerX + getWidth()/4, centerY - getHeight()/3, colors);            }
             for (int i =1; i <= (int) (baseRadius/ratio); i++){
                 colors.setARGB(255/i,20,20,20);
                 myCanvas.drawCircle(newX-cos*hypotenuse* (ratio/baseRadius)*i,
@@ -102,17 +103,18 @@ public class ControlStickView extends SurfaceView implements SurfaceHolder.Callb
     public boolean onTouch(View view, MotionEvent myEvent){
         if (view.equals(this)) {
             if (myEvent.getAction() != myEvent.ACTION_UP) {
-                float displacement = (float) Math.sqrt(Math.pow(myEvent.getX() - centerX, 2));
+                int height = getHeight()/3;
+                float displacement = (float) Math.sqrt(Math.pow(myEvent.getY() - centerY, 2));
                 if (displacement < baseRadius) {
-                    drawJoystick(myEvent.getX(), centerY);
-                    joystickCallback.onJoystickMoved((myEvent.getX() - centerX)/baseRadius, (myEvent.getY() - centerY)/baseRadius, getId());
+                    drawJoystick(centerX, myEvent.getY());
+                    joystickCallback.onJoystickMoved((myEvent.getX() - centerX)/height, (myEvent.getY() - centerY)/height, getId());
                 }
                 else{
-                    float ratio = baseRadius/displacement;
+                    float ratio = height/displacement;
                     float constrainedX = centerX + (myEvent.getX()-centerX)*ratio;
                     float constrainedY = centerY + (myEvent.getY()-centerY)*ratio;
-                    drawJoystick(constrainedX,centerY);
-                    joystickCallback.onJoystickMoved((constrainedX-centerX)/baseRadius, (constrainedY-centerY)/baseRadius, getId());
+                    drawJoystick(centerX,constrainedY);
+                    joystickCallback.onJoystickMoved((constrainedX-centerX)/height, (constrainedY-centerY)/height, getId());
 
                 }
             } else {

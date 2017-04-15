@@ -10,151 +10,107 @@
     android:weightSum="1">
 
     <LinearLayout
-            android:layout_width="80dp"
-            android:layout_height="615dp"
-            android:orientation="vertical">
-        <Button
-            android:text="BREAK"
-            android:layout_width="130dp"
-            android:layout_height="50dp"
-            android:id="@+id/button3"
-            android:rotation="90"
-            android:layout_marginLeft="-30dp"
-            android:layout_marginTop="50dp"
-            android:backgroundTint="@android:color/holo_red_dark" />
+            android:layout_width="150dp"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:rotation="90"
-                android:text="Velocity:"
-                android:layout_marginTop="100dp"
-                android:textSize="20dp"
-                android:textColor="@android:color/black" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:rotation="90"
-                android:text="Steering:"
-                android:textSize="20dp"
-                android:layout_marginTop="135dp"
-                android:textColor="@android:color/black" />
-            <Button
-                android:layout_width="130dp"
-                android:layout_height="50dp"
-                android:text="Voice Command"
-                android:rotation="90"
-                android:layout_marginLeft="-30dp"
-                android:layout_marginTop="130dp"
-                android:backgroundTint="@android:color/holo_blue_bright"/>
+            <com.example.lerrrrmps.myfirstapp.ControlStickViewRight
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:id ="@+id/JoystickRight"
+                android:layout_marginRight="0dp"
+                android:layout_marginLeft="0dp"
+                />
+
     </LinearLayout>
     <LinearLayout
-        android:layout_height="615dp"
+        android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_width="200dp">
+        android:layout_width="340dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="260dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/darker_gray"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+            <LinearLayout
+                android:layout_width="80dp"
+                android:layout_height="match_parent">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Velocity:"
+                    android:textSize="16dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="10dp"
+                    android:textColor="@android:color/black" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="80dp"
+                android:layout_height="match_parent">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/velocity_amount"
+                    android:textSize="16dp"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="113dp"
+                android:layout_height="match_parent">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Steering:"
+                    android:textSize="16dp"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginRight="10dp"
+                    android:textColor="@android:color/black" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="70dp"
+                android:layout_height="match_parent">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/steering_amount"
+                    android:textSize="16dp"/>
+            </LinearLayout>
+
+
+
+
+        </LinearLayout>
+        <Button
+            android:layout_width="130dp"
+            android:layout_height="50dp"
+            android:text="Voice Command"
+            android:layout_gravity="center"
+            android:backgroundTint="@android:color/holo_blue_bright"/>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="150dp"
+        android:layout_height="match_parent">
 
         <com.example.lerrrrmps.myfirstapp.ControlStickViewRight
-            android:layout_width="fill_parent"
-            android:layout_height="150dp"
-            android:id ="@+id/JoystickRight"
-            android:layout_marginRight="0dp"
-            android:layout_marginLeft="0dp"
-            />
-
-        <TextView
-            android:layout_width="305dp"
-            android:layout_height="315dp"
-            android:background="@android:color/darker_gray"/>
-
-        <com.example.lerrrrmps.myfirstapp.ControlStickView
-            android:layout_width="fill_parent"
-            android:layout_height="150dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:id ="@+id/JoystickLeft"/>
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_height="615dp"
-        android:orientation="vertical"
-        android:layout_width="100dp">
-        <!--
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:rotation="90"
-            android:text="THROTTLE"
-            android:layout_marginTop="50dp"
-            android:textSize="14dp"
-            android:textColor="@android:color/black"
-            />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:autoLink="web"
-            android:text="http://androidSRC.net/"
-            android:textStyle="bold"
-            android:rotation="90"
-            android:layout_marginTop="25dp"
-            android:layout_marginBottom="25dp"
-            android:textSize="10dp"/>
-
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/addressEditText"
-            android:hint="Server ip address"
-            android:rotation="90"
-            android:layout_marginTop="25dp"
-            android:layout_marginBottom="25dp"
-            android:textSize="10dp"/>
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/portEditText"
-            android:hint="Server port number"
-            android:rotation="90"
-            android:layout_marginTop="25dp"
-            android:layout_marginBottom="25dp"
-            android:textSize="10dp"/>
-        -->
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/connectButton"
-            android:text="Connect..."
-            android:rotation="90"
-            android:layout_marginTop="45dp"
-            android:layout_marginBottom="25dp"
-            android:textSize="10dp"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/clearButton"
-            android:text="Clear"
-            android:rotation="90"
-            android:layout_marginTop="25dp"
-            android:layout_marginBottom="25dp"
-            android:textSize="10dp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/responseTextView"
-            android:layout_marginTop="25dp"
-            android:layout_marginBottom="25dp"
-            android:textSize="10dp"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="300dp"
-            android:rotation="90"
-            android:text="STEERING"
-            android:textSize="14dp"
-            android:layout_marginTop="455dp"
-            android:textColor="@android:color/black"/>
-
-    </LinearLayout>
 
 </LinearLayout>
+
 
 
 

@@ -1,8 +1,5 @@
 package com.example.lerrrrmps.myfirstapp;
 
-import java.security.MessageDigest;
-import java.util.LinkedList;
-import java.util.Queue;
 
 import android.util.Log;
 import android.widget.TextView;
@@ -13,7 +10,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.concurrent.atomic.AtomicInteger;
+
 
 /**
  * Created by Lerrrrmps on 4/11/2017.
@@ -49,7 +46,7 @@ public class SocketRunnable implements Runnable {
             long now;
             while (true){
                 now = System.currentTimeMillis();
-                if (now > lastTimeSent + 100){
+                if (now > lastTimeSent + 50){
 
                     //Log.d("run", throttle.toString());
                     //String message = garbage + "," + throttle.get() + "," + steering.get();
@@ -61,7 +58,7 @@ public class SocketRunnable implements Runnable {
                 }
                 else {
                     try{
-                        Thread.sleep(100);
+                        Thread.sleep(10);
                     }
                     catch (Exception e) {
                         //do nuffin
@@ -87,11 +84,5 @@ public class SocketRunnable implements Runnable {
                 }
             }
         }
-
-
-
-
-
-
     }
 }

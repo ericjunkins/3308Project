@@ -12,34 +12,17 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
+
 import android.widget.TextView;
-
-
-import com.example.lerrrrmps.myfirstapp.ControlStickView;
 
 import org.w3c.dom.Text;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.net.InterfaceAddress;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.nio.IntBuffer;
-import java.util.concurrent.atomic.AtomicInteger;
-
-import static android.R.attr.id;
-import static android.R.attr.x;
-import static android.provider.AlarmClock.EXTRA_MESSAGE;
 
 public class MainActivity extends AppCompatActivity implements ControlStickView.JoystickListener,ControlStickViewRight.JoystickListener{
     private Context context;
     private ControlStickView controlStickView;
     private ControlStickViewRight controlStickViewRight;
     private Handler handler;
-    //AtomicInteger throttle;
-    //AtomicInteger steering;
     StringBuffer throttle;
     StringBuffer steering;
 
@@ -67,8 +50,6 @@ public class MainActivity extends AppCompatActivity implements ControlStickView.
 		buttonConnect = (Button) findViewById(R.id.connectButton);
 		buttonClear = (Button) findViewById(R.id.clearButton);
 		response = (TextView) findViewById(R.id.responseTextView);
-        //throttle = new AtomicInteger(0);
-        //steering = new AtomicInteger(0);
         throttle = new StringBuffer();
         steering = new StringBuffer();
         throttle.append(0);
@@ -77,35 +58,16 @@ public class MainActivity extends AppCompatActivity implements ControlStickView.
 
         SocketRunnable socketrunnable = new SocketRunnable(throttle, steering);
         new Thread(socketrunnable).start();
-        /*
-		buttonConnect.setOnClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(View arg0) {
-                int port = 5002;
-				ericClient myClient = new ericClient("192.168.42.1", 5005, response);
-				myClient.execute();
-
-            }
-		});
-
-
-
-		//buttonClear.setOnClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				response.setText("");
-			}
-		});
-        */
-
     }
 
 
     @Override
     public void onJoystickMoved(float xPercent, float yPercent, int source) {
         //Log.d("id","source" + source);
+        TextView myTextViewV = (TextView) findViewById(R.id.velocity_amount);
+        TextView myTextViewS = (TextView) findViewById(R.id.steering_amount);
+
+
         switch (source)
         {
             //NOTE TO SELF SWAP DEFINITIONS OF LEFT/RIGHT JOYSTICKS!!
@@ -115,14 +77,17 @@ public class MainActivity extends AppCompatActivity implements ControlStickView.
                 //steering.set((int) (xPercent * 100));
                 //Log.d("steering", steering.toString());
                 steering.delete(0,steering.length());
-                steering.append((int) (xPercent * 100));
+                steering.append((int) (yPercent * -100));
+                //myTextViewS.setText((int) (yPercent*-45) +" deg");
+
                 break;
             case R.id.JoystickRight:
                 //Log.d("Right joystick","X percent: " + xPercent + "Y percent: " + yPercent);
                 //throttle.set((int) (xPercent * 100));
                 //Log.d("throttle", throttle.toString());
                 throttle.delete(0,throttle.length());
-                throttle.append((int) (xPercent * 100));
+                throttle.append((int) (yPercent * -100));
+                //myTextViewV.setText((int) (yPercent*-40) + " mi/hr");
                 break;
         }
     }
