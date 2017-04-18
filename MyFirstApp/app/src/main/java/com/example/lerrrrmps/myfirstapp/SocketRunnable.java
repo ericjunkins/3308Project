@@ -17,12 +17,11 @@ import java.net.UnknownHostException;
  */
 
 public class SocketRunnable implements Runnable {
-    //private AtomicInteger throttle;
-    //private AtomicInteger steering;
 
     private StringBuffer throttle;
     private StringBuffer steering;
     private String message;
+
 
     protected SocketRunnable(StringBuffer throttle, StringBuffer steering){
         Log.d("throttle",throttle.toString()+"!@#awelsjdlfkas");
@@ -44,6 +43,7 @@ public class SocketRunnable implements Runnable {
             DataOutputStream DOS = new DataOutputStream(socket.getOutputStream());
             long lastTimeSent = System.currentTimeMillis();
             long now;
+
             while (true){
                 now = System.currentTimeMillis();
                 if (now > lastTimeSent + 50){

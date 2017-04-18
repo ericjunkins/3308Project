@@ -80,15 +80,25 @@ while(True):
                 
                 if not data: break
 
-                #print "recieved data:", data, len(data)
+                print "recieved data:", data, len(data)
                 #data incoming is in the form of a CSV string
                 dataSplit = data.split(",")
 
                 #data should be of these lengths depending on the values sent from app
-                if len(data) > 8 and len(data) < 15:
-                        #print dataSplit[1],dataSplit[2]
-                        move = int(dataSplit[1])
-                        steer = int(dataSplit[2])
+                if len(data) <=15:
+                        print dataSplit[1],dataSplit[2]
+                        try:
+                                move = int(dataSplit[1])
+                        except:
+                                print "move not valid"
+                                move =0
+                        try:
+                                steer = int(dataSplit[2])
+                        except:
+                                print "steer not valid"
+                                steer = 0
+                        
+                        print move, steer
                         if (move >= -100 and move <=100 and steer <=100 and steer >= -100):
                                 #read the previous values of move and steer from .txt
                                 f = open("data.txt", "r")
@@ -134,6 +144,7 @@ while(True):
                                         fnew.write(str(move) + "," + str(steer))
                                         fnew.close()
                                         throttle(move/2,pi2)
+
 
 
         f.close()

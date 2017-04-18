@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity implements ControlStickView.
                 //Log.d("steering", steering.toString());
                 steering.delete(0,steering.length());
                 steering.append((int) (yPercent * -100));
-                //myTextViewS.setText((int) (yPercent*-45) +" deg");
+                myTextViewS.setText((int) (yPercent*-45) +" deg");
 
                 break;
             case R.id.JoystickRight:
@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements ControlStickView.
                 //Log.d("throttle", throttle.toString());
                 throttle.delete(0,throttle.length());
                 throttle.append((int) (yPercent * -100));
-                //myTextViewV.setText((int) (yPercent*-40) + " mi/hr");
+                myTextViewV.setText((int) (yPercent*-40) + " mi/hr");
                 break;
         }
     }
