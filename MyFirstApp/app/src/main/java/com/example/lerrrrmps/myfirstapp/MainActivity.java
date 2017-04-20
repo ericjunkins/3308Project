@@ -56,6 +56,8 @@ public class MainActivity extends AppCompatActivity implements ControlStickView.
         steering.append(0);
         handler = new Handler();
 
+        overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
+
         SocketRunnable socketrunnable = new SocketRunnable(throttle, steering);
         new Thread(socketrunnable).start();
     }
