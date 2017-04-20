@@ -24,7 +24,6 @@ public class SocketRunnable implements Runnable {
 
 
     protected SocketRunnable(StringBuffer throttle, StringBuffer steering){
-        Log.d("throttle",throttle.toString()+"!@#awelsjdlfkas");
         this.throttle = throttle;
         this.steering = steering;
 
@@ -51,7 +50,7 @@ public class SocketRunnable implements Runnable {
                     //Log.d("run", throttle.toString());
                     //String message = garbage + "," + throttle.get() + "," + steering.get();
                     message = 100 + "," + throttle + "," + steering;
-                    Log.d("run", message.toString());
+                    Log.d("run", message);
 
                     DOS.writeUTF(message);
                     lastTimeSent= now;

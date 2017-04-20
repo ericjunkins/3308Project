@@ -9,6 +9,8 @@
     tools:context="com.example.lerrrrmps.myfirstapp.MainActivity"
     android:weightSum="1">
 
+
+
     <LinearLayout
             android:layout_width="150dp"
             android:layout_height="match_parent"
@@ -91,7 +93,8 @@
         <Button
             android:layout_width="130dp"
             android:layout_height="50dp"
-            android:text="Voice Command"
+            android:text="Socket Connect"
+            android:id="@+id/SocketConnect"
             android:layout_gravity="center"
             android:backgroundTint="@android:color/holo_blue_bright"/>
 
@@ -107,7 +110,6 @@
             android:layout_height="match_parent"
             android:id ="@+id/JoystickLeft"/>
     </LinearLayout>
-
 
 </LinearLayout>
 
