@@ -15,6 +15,8 @@ import android.widget.EditText;
 
 import android.widget.TextView;
 
+import android.os.Vibrator;
+
 import org.w3c.dom.Text;
 
 
@@ -23,6 +25,7 @@ public class MainActivity extends AppCompatActivity implements ControlStickView.
     private ControlStickView controlStickView;
     private ControlStickViewRight controlStickViewRight;
     private Handler handler;
+    private Vibrator myVib; // For Haptic Feedback
     StringBuffer throttle;
     StringBuffer steering;
 
@@ -57,6 +60,8 @@ public class MainActivity extends AppCompatActivity implements ControlStickView.
         handler = new Handler();
         Button socketButton = (Button) findViewById(R.id.SocketConnect);
 
+        myVib = (Vibrator) this.getSystemService(VIBRATOR_SERVICE); //For Haptic Feedback
+
         overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
         
         socketButton.setOnClickListener(new View.OnClickListener() {
@@ -88,6 +93,7 @@ public class MainActivity extends AppCompatActivity implements ControlStickView.
                 steering.delete(0,steering.length());
                 steering.append((int) (yPercent * -100));
                 myTextViewS.setText((int) (yPercent*-45) +" deg");
+                myVib.vibrate(100); //Adds haptic feedback for 100 milliseconds
 
                 break;
             case R.id.JoystickRight:
@@ -97,6 +103,7 @@ public class MainActivity extends AppCompatActivity implements ControlStickView.
                 throttle.delete(0,throttle.length());
                 throttle.append((int) (yPercent * -100));
                 myTextViewV.setText((int) (yPercent*-40) + " mi/hr");
+                myVib.vibrate(100); //Adds haptic feedback for 100 milliseconds
                 break;
         }
     }
