@@ -21,7 +21,7 @@
         android:layout_centerHorizontal="true" />
 
     <TextView
-        android:text="Please Make Sure You Are Connected To The Correct WiFi"
+        android:text="Connecting..."
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"

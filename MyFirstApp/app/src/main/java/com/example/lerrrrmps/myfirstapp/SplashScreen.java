@@ -3,6 +3,8 @@ package com.example.lerrrrmps.myfirstapp;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.net.wifi.WifiConfiguration;
+import android.net.wifi.WifiManager;
 
 public class SplashScreen extends AppCompatActivity {
 
@@ -10,6 +12,16 @@ public class SplashScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
+
+        //Automatically connect to wifi
+        WifiConfiguration wifiConfig = new WifiConfiguration();
+        wifiConfig.SSID = String.format("\"%s\"", "WiPi");
+        wifiConfig.preSharedKey = String.format("\"%s\"", "Durka1234");
+        WifiManager wifiManager = (WifiManager)getSystemService(WIFI_SERVICE);
+        int netId = wifiManager.addNetwork(wifiConfig);
+        wifiManager.disconnect();
+        wifiManager.enableNetwork(netId, true);
+        wifiManager.reconnect();
 
 
 

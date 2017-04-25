@@ -14,9 +14,13 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import android.widget.TextView;
+
 import android.net.Uri;
 import android.widget.MediaController;
 import android.widget.VideoView;
+
+import android.os.Vibrator;
+
 import org.w3c.dom.Text;
 
 
@@ -25,6 +29,7 @@ public class MainActivity extends AppCompatActivity implements ControlStickView.
     private ControlStickView controlStickView;
     private ControlStickViewRight controlStickViewRight;
     private Handler handler;
+    private Vibrator myVib; // For Haptic Feedback
     StringBuffer throttle;
     StringBuffer steering;
 
@@ -59,6 +64,7 @@ public class MainActivity extends AppCompatActivity implements ControlStickView.
         handler = new Handler();
         Button socketButton = (Button) findViewById(R.id.SocketConnect);
 
+
         VideoView vidView = (VideoView)findViewById(R.id.myVideo);
 
         //String RTSP_URL = "rtsp://192.168.1.80:8554/myvid1.mp4";
@@ -70,6 +76,9 @@ public class MainActivity extends AppCompatActivity implements ControlStickView.
         vidView.setMediaController(mediaController);
         vidView.setVideoURI(vidUri);
         vidView.start();
+
+        myVib = (Vibrator) this.getSystemService(VIBRATOR_SERVICE); //For Haptic Feedback
+
 
         overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
         
@@ -102,6 +111,7 @@ public class MainActivity extends AppCompatActivity implements ControlStickView.
                 steering.delete(0,steering.length());
                 steering.append((int) (yPercent * -100));
                 myTextViewS.setText((int) (yPercent*-45) +" deg");
+                myVib.vibrate(20); //Adds haptic feedback for 100 milliseconds
 
                 break;
             case R.id.JoystickRight:
@@ -110,7 +120,12 @@ public class MainActivity extends AppCompatActivity implements ControlStickView.
                 //Log.d("throttle", throttle.toString());
                 throttle.delete(0,throttle.length());
                 throttle.append((int) (yPercent * -100));
+
                 myTextViewV.setText((int) (yPercent*-40/2) + " mi/hr");
+
+                myTextViewV.setText((int) (yPercent*-40) + " mi/hr");
+                myVib.vibrate(20); //Adds haptic feedback for 100 milliseconds
+
                 break;
         }
     }
