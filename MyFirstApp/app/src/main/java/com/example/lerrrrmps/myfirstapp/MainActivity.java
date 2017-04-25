@@ -14,7 +14,9 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import android.widget.TextView;
-
+import android.net.Uri;
+import android.widget.MediaController;
+import android.widget.VideoView;
 import org.w3c.dom.Text;
 
 
@@ -57,6 +59,18 @@ public class MainActivity extends AppCompatActivity implements ControlStickView.
         handler = new Handler();
         Button socketButton = (Button) findViewById(R.id.SocketConnect);
 
+        VideoView vidView = (VideoView)findViewById(R.id.myVideo);
+
+        //String RTSP_URL = "rtsp://192.168.1.80:8554/myvid1.mp4";
+        String RTSP_URL = "rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mov";
+        Uri vidUri = Uri.parse(RTSP_URL);
+        //Log.d("uri parse:", vidUri.toString());
+        MediaController mediaController = new MediaController(this);
+        mediaController.setAnchorView(vidView);
+        vidView.setMediaController(mediaController);
+        vidView.setVideoURI(vidUri);
+        vidView.start();
+
         overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
         
         socketButton.setOnClickListener(new View.OnClickListener() {
@@ -96,7 +110,7 @@ public class MainActivity extends AppCompatActivity implements ControlStickView.
                 //Log.d("throttle", throttle.toString());
                 throttle.delete(0,throttle.length());
                 throttle.append((int) (yPercent * -100));
-                myTextViewV.setText((int) (yPercent*-40) + " mi/hr");
+                myTextViewV.setText((int) (yPercent*-40/2) + " mi/hr");
                 break;
         }
     }
