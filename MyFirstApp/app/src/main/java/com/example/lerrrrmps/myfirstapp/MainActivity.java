@@ -124,7 +124,8 @@ public class MainActivity extends AppCompatActivity implements ControlStickView.
                 myTextViewV.setText((int) (yPercent*-40/2) + " mi/hr");
 
                 myTextViewV.setText((int) (yPercent*-40) + " mi/hr");
-                myVib.vibrate(20); //Adds haptic feedback for 100 milliseconds
+
+                    myVib.vibrate(20); //Adds haptic feedback for 100 milliseconds
 
                 break;
         }
