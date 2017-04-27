@@ -111,7 +111,8 @@ public class MainActivity extends AppCompatActivity implements ControlStickView.
                 steering.delete(0,steering.length());
                 steering.append((int) (yPercent * -100));
                 myTextViewS.setText((int) (yPercent*-45) +" deg");
-                myVib.vibrate(20); //Adds haptic feedback for 100 milliseconds
+                myVib.vibrate((int) Math.abs((100* yPercent)/3));
+
 
                 break;
             case R.id.JoystickRight:
@@ -122,11 +123,10 @@ public class MainActivity extends AppCompatActivity implements ControlStickView.
                 throttle.append((int) (yPercent * -100));
 
                 myTextViewV.setText((int) (yPercent*-40/2) + " mi/hr");
-
                 myTextViewV.setText((int) (yPercent*-40) + " mi/hr");
 
-                    myVib.vibrate(20); //Adds haptic feedback for 100 milliseconds
 
+                myVib.vibrate((int) Math.abs((100* yPercent)/3));
                 break;
         }
     }
