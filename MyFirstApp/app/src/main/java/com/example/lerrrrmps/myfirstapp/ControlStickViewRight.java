@@ -3,8 +3,11 @@ package com.example.lerrrrmps.myfirstapp;
 import android.annotation.SuppressLint;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
+import android.graphics.RectF;
+import android.graphics.Shader;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -81,10 +84,24 @@ public class ControlStickViewRight extends SurfaceView implements SurfaceHolder.
             float sin = (newY - centerY)/hypotenuse;
             float cos = (newX - centerX)/hypotenuse;
 
+            Shader shader = new LinearGradient(centerX,centerY ,centerX,centerY+ getHeight()/2, Color.BLUE, Color.BLACK, Shader.TileMode.CLAMP);
+            Paint paint = new Paint();
+            paint.setShader(shader);
+            myCanvas.drawRect(new RectF(0, centerY + getHeight()/2, centerX + getWidth()/2 , centerY), paint);
+
+            Shader shader2 = new LinearGradient(centerX,centerY,centerX,centerY - getHeight()/2, Color.BLUE, Color.BLACK, Shader.TileMode.CLAMP);
+            paint.setShader(shader2);
+            myCanvas.drawRect(new RectF(centerX - getWidth()/2, centerY, centerX + getWidth()/2 , centerY - getHeight()/2), paint);
+
+
+            colors.setARGB(255,255,255,255);
+            myCanvas.drawOval(centerX-getWidth()/4, centerY + getHeight()/3, centerX + getWidth()/4, centerY - getHeight()/3, colors);
+
             for (int i = 1; i <= 100; i++) {
                 colors.setARGB(100 , i*(255/100) , i* (255/100) , i* (255/100));
-                myCanvas.drawOval(centerX - getWidth()/4, centerY + getHeight()/3, centerX + getWidth()/4, centerY - getHeight()/3, colors);
+                myCanvas.drawOval(centerX - getWidth()/5, centerY + getHeight()/4, centerX + getWidth()/5, centerY - getHeight()/4, colors);
             }
+
             for (int i =1; i <= (int) (baseRadius/ratio); i++){
                 colors.setARGB(255/i,20,20,20);
                 myCanvas.drawCircle(newX-cos*hypotenuse* (ratio/baseRadius)*i,

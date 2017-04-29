@@ -35,6 +35,8 @@
             android:screenOrientation="landscape">
             >
         </activity>
+        <activity android:name=".Speedometer" />
+        <activity android:name=".SpeedChangeListener"></activity>
     </application>
 
 </manifest>

@@ -6,51 +6,104 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
-    tools:context="com.example.lerrrrmps.myfirstapp.MainActivity"
-    android:weightSum="1">
-
+    tools:context="com.example.lerrrrmps.myfirstapp.MainActivity">
 
 
     <LinearLayout
-        android:layout_width="150dp"
+        android:layout_width="130dp"
         android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
-            <com.example.lerrrrmps.myfirstapp.ControlStickViewRight
-                android:layout_width="fill_parent"
-                android:layout_height="match_parent"
-                android:id ="@+id/JoystickRight"
-                android:layout_marginRight="0dp"
-                android:layout_marginLeft="0dp"
-                />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:background="@android:color/black">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Throttle"
+                android:layout_gravity="center"
+                android:gravity="center_vertical|center_horizontal"
+                android:layout_marginLeft="20dp"
+                android:textSize="26sp"
+                android:textColor="@android:color/white" />
+        </LinearLayout>
 
+        <com.example.lerrrrmps.myfirstapp.ControlStickViewRight
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:id ="@+id/JoystickRight"
+            android:layout_marginTop="0dp"
+            android:layout_marginLeft="0dp"/>
     </LinearLayout>
 
     <LinearLayout
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_width="340dp"
-        android:weightSum="10">
+        android:layout_width="380dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:background="#000"
-            android:layout_weight="1">
+            android:layout_height="35dp"
+            android:background="@android:color/black">
 
+            <CheckBox
+                android:text="Connected"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/checkBox"
+                android:clickable="false"
+                android:checked="false"
+                android:buttonTint="@android:color/holo_green_light"
+                android:textColor="@android:color/white"
+                android:textColorHint="@android:color/white"
+                android:layout_marginRight="64dp"
+                android:layout_marginEnd="64dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+
+            <Button
+                android:layout_width="130dp"
+                android:layout_height="40dp"
+                android:text="Socket Connect"
+                android:id="@+id/SocketConnect"
+                android:backgroundTint="@android:color/holo_green_light"
+                android:textSize="12sp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginRight="29dp"
+                android:layout_marginEnd="29dp"
+                android:layout_alignParentTop="true"
+                android:layout_toLeftOf="@+id/checkBox"
+                android:layout_toStartOf="@+id/checkBox" />
         </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:orientation="horizontal"
-            android:layout_height="0dp"
-            android:layout_weight="7">
+            android:layout_height="235dp"
+            android:background="@android:color/black"
+            android:weightSum="10">
+            <LinearLayout
+                android:layout_marginLeft="5dp"
+                android:layout_width="370dp"
+                android:layout_height="235dp"
+                android:background="@android:color/white">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <VideoView
+                        android:layout_width="340dp"
+                        android:layout_height="220dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginLeft="18dp"
+                        android:id="@+id/myVideo"/>
+                </LinearLayout>
+            </LinearLayout>
 
-            <VideoView
-                android:layout_width="wrap_content"
-                android:layout_height="250dp"
-                android:layout_weight="7"
-                android:id="@+id/myVideo" />
+
+
 
             <!---
             <TextView
@@ -61,78 +114,62 @@
 
         </LinearLayout>
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="2"
-            android:background="#000">
+            android:layout_height="110dp"
+            android:background="@android:color/black">
 
-            <Button
-                android:layout_width="130dp"
-                android:layout_height="50dp"
-                android:text="Socket Connect"
-                android:id="@+id/SocketConnect"
-                android:backgroundTint="@android:color/holo_blue_bright"
-                android:textSize="12sp"
-                android:layout_gravity="center_horizontal"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true" />
+            <LinearLayout
+                android:layout_width="370dp"
+                android:layout_height="100dp"
+                android:layout_marginLeft="5dp"
+                android:background="@android:color/white">
+                <LinearLayout
+                    android:layout_width="360dp"
+                    android:layout_height="100dp"
+                    android:layout_marginLeft="5dp"
+                    android:background="@drawable/border">
 
-            <TextView
-                android:id="@+id/steering_amount"
-                android:textSize="16dp"
-                android:textColor="#FFF"
-                android:layout_width="80dp"
-                android:layout_height="20dp"
-                android:text="0"
-                android:layout_alignBaseline="@+id/SocketConnect"
-                android:layout_alignBottom="@+id/SocketConnect"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true" />
+                    <com.cardiomood.android.controls.gauge.SpeedometerGauge
+                        android:layout_height="200dp"
+                        android:layout_width="150dp"
+                        android:padding="8dp"
+                        android:layout_gravity="center"
+                        android:id="@+id/speedometerV"
+                        android:layout_marginLeft="15dp"/>
 
-            <TextView
-                android:textSize="16dp"
-                android:textColor="#FFF"
-                android:layout_width="80dp"
-                android:layout_height="20dp"
-                android:text="Velocity"
-                android:layout_marginLeft="12dp"
-                android:layout_marginStart="12dp"
-                android:id="@+id/textView3"
-                android:layout_above="@+id/SocketConnect"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
+                    <com.cardiomood.android.controls.gauge.SpeedometerGauge
+                        android:layout_height="200dp"
+                        android:layout_width="150dp"
+                        android:padding="8dp"
+                        android:layout_gravity="center"
+                        android:id="@+id/speedometerS"
+                        android:layout_marginLeft="40dp"/>
 
-            <TextView
-                android:textSize="16dp"
-                android:textColor="#FFF"
-                android:layout_width="80dp"
-                android:layout_height="20dp"
-                android:text="Steering %"
-                android:id="@+id/textView4"
-                android:layout_above="@+id/SocketConnect"
-                android:layout_toRightOf="@+id/SocketConnect"
-                android:layout_toEndOf="@+id/SocketConnect" />
-
-            <TextView
-                android:id="@+id/velocity_amount"
-                android:textSize="16dp"
-                android:textColor="#FFF"
-                android:layout_width="80dp"
-                android:layout_height="20dp"
-                android:text="0"
-                android:layout_alignBaseline="@+id/SocketConnect"
-                android:layout_alignBottom="@+id/SocketConnect"
-                android:layout_alignLeft="@+id/textView3"
-                android:layout_alignStart="@+id/textView3" />
-        </RelativeLayout>
-
-
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="150dp"
-        android:layout_height="match_parent">
+        android:layout_width="130dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:background="@android:color/black">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Steering"
+                android:layout_gravity="center"
+                android:gravity="center_vertical|center_horizontal"
+                android:layout_marginLeft="20dp"
+                android:textSize="26sp"
+                android:textColor="@android:color/white" />/>
+        </LinearLayout>
 
         <com.example.lerrrrmps.myfirstapp.ControlStickViewRight
             android:layout_width="match_parent"
@@ -143,8 +180,72 @@
 </LinearLayout>
 
 
+<!--
 
 
+-->
+
+<!--
+
+
+-->
+
+
+
+
+    <!--
+                <TextView
+                    android:textSize="16dp"
+                    android:textColor="#FFF"
+                    android:layout_width="80dp"
+                    android:layout_height="20dp"
+                    android:text="Velocity"
+                    android:id="@+id/textView3"
+                    android:layout_marginRight="13dp"
+                    android:layout_marginEnd="13dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignRight="@+id/steering_amount"
+                    android:layout_alignEnd="@+id/steering_amount" />
+
+                <TextView
+                    android:id="@+id/velocity_amount"
+                    android:textSize="16dp"
+                    android:textColor="#FFF"
+                    android:layout_width="80dp"
+                    android:layout_height="20dp"
+                    android:text="0"
+                    android:layout_alignBaseline="@+id/steering_amount"
+                    android:layout_alignBottom="@+id/steering_amount"
+                    android:layout_alignLeft="@+id/textView4"
+                    android:layout_alignStart="@+id/textView4"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginStart="12dp" />
+
+                <TextView
+                    android:textSize="16dp"
+                    android:textColor="#FFF"
+                    android:layout_width="80dp"
+                    android:layout_height="20dp"
+                    android:text="Steering %"
+                    android:id="@+id/textView4"
+                    android:layout_marginRight="39dp"
+                    android:layout_marginEnd="39dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true" />
+
+
+                <TextView
+                    android:id="@+id/steering_amount"
+                    android:textSize="16dp"
+                    android:textColor="#FFF"
+                    android:layout_width="80dp"
+                    android:layout_height="20dp"
+                    android:text="0"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
+                -->
 
 
 
