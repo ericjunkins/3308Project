@@ -129,7 +129,7 @@
                     android:layout_height="100dp"
                     android:layout_marginLeft="5dp"
                     android:background="@drawable/border">
-
+                    
                     <com.cardiomood.android.controls.gauge.SpeedometerGauge
                         android:layout_height="200dp"
                         android:layout_width="150dp"
