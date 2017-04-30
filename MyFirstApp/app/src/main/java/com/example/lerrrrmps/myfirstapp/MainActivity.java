@@ -92,26 +92,34 @@ public class MainActivity extends AppCompatActivity implements ControlStickView.
         wifiManager.addNetwork(conf);
 
         List<WifiConfiguration> list = wifiManager.getConfiguredNetworks();
-        Log.d("wifi list:", list.toString());
-
-        for( WifiConfiguration i : list) {
-            Log.d("wifi list", i.SSID.toString());
-            if (i.SSID != null && i.SSID.equals("\"" + networkSSID + "\"")) {
-                wifiManager.disconnect();
-                wifiManager.enableNetwork(i.networkId, true);
-                wifiManager.reconnect();
-
-                break;
+        //Log.d("wifi list:", list.toString());
+        int numTries = 0;
+        while(numTries < 10 && wifiManager.getConnectionInfo().getSSID() != networkSSID) {
+            for (WifiConfiguration i : list) {
+                //Log.d("wifi list", i.SSID.toString());
+                if (i.SSID != null && i.SSID.equals("\"" + networkSSID + "\"")) {
+                    wifiManager.disconnect();
+                    wifiManager.enableNetwork(i.networkId, true);
+                    wifiManager.reconnect();
+                    break;
+                }
             }
+            try {
+                TimeUnit.MILLISECONDS.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            numTries += 1;
         }
-
         try {
-            TimeUnit.SECONDS.sleep(3);
+            TimeUnit.MILLISECONDS.sleep(500);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        //String RTSP_URL = "rtsp://192.168.1.80:8554/myvid1.mp4";
-        String RTSP_URL = "rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mov";
+
+        String RTSP_URL = "rtsp://192.168.1.80:8554/";
+        //String RTSP_URL = "rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mov";
+
         Uri vidUri = Uri.parse(RTSP_URL);
         //Log.d("uri parse:", vidUri.toString());
         MediaController mediaController = new MediaController(this);
@@ -119,8 +127,6 @@ public class MainActivity extends AppCompatActivity implements ControlStickView.
         vidView.setMediaController(mediaController);
         vidView.setVideoURI(vidUri);
         vidView.start();
-
-
 
         overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
         
