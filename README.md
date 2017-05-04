@@ -52,3 +52,13 @@ Project Plan:
 
   Plan on project tracking software, link above. 
 
+File Structure:
+  Main Repo --
+     JavaDoc -- Contains all the autodocs for the java files of the android app
+     MyFirstApp -- Contains everything necessary to build the app
+        /app/src/main/java/come/example/lerrrrmps -- Location of Java files used to build appp
+        /res -- all files needed for XML display and variables used for the app
+     RaspberryPi -- files used on the raspberry pi(s) to control the RC car
+     Supporting documents -- powerpoints etc
+     TestingPrograms -- programs used to test functionality of wifi network etc, not used in final build
+     
