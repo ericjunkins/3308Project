@@ -13,7 +13,7 @@ import java.net.UnknownHostException;
 
 
 /**
- * Created by Lerrrrmps on 4/11/2017.
+ * Initializes the wifi socket with the raspberry pi
  */
 
 public class SocketRunnable implements Runnable {
@@ -22,19 +22,29 @@ public class SocketRunnable implements Runnable {
     private StringBuffer steering;
     private String message;
 
-
+    /**
+     * Sets this instance of the Socket runnables throttle and steering values to be the values
+     * passed in by the joysticks
+     * @param throttle
+     * @param steering
+     */
     protected SocketRunnable(StringBuffer throttle, StringBuffer steering){
         this.throttle = throttle;
         this.steering = steering;
 
     }
 
+    /**
+     * Wifi connection to the raspberry pi
+     */
     String dstAddress = "192.168.42.1";
     int dstPort = 5005;
     String response = "";
     Socket socket = null;
-    int garbage = 100;
 
+    /**
+     * Finds the socket, and will send joystick data every 50ms
+     */
     @Override
     public void run(){
         try {

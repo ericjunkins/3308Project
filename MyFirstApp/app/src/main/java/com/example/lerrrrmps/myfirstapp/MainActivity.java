@@ -34,7 +34,9 @@ import java.util.concurrent.TimeUnit;
 
 import static android.R.attr.checked;
 
-
+/**
+ * Contains the joysticks and video for display
+ */
 public class MainActivity extends AppCompatActivity implements ControlStickView.JoystickListener,ControlStickViewRight.JoystickListener{
     private Context context;
     private ControlStickView controlStickView;
@@ -81,6 +83,7 @@ public class MainActivity extends AppCompatActivity implements ControlStickView.
         myVib = (Vibrator) this.getSystemService(VIBRATOR_SERVICE); //For Haptic Feedback
         VideoView vidView = (VideoView)findViewById(R.id.myVideo);
 
+        //Wifi network on the Raspberry Pi
         String networkSSID = "WiPi";
         String networkPass = "Durka1234!";
 
@@ -92,11 +95,9 @@ public class MainActivity extends AppCompatActivity implements ControlStickView.
         wifiManager.addNetwork(conf);
 
         List<WifiConfiguration> list = wifiManager.getConfiguredNetworks();
-        //Log.d("wifi list:", list.toString());
         int numTries = 0;
         while(numTries < 10 && wifiManager.getConnectionInfo().getSSID() != networkSSID) {
             for (WifiConfiguration i : list) {
-                //Log.d("wifi list", i.SSID.toString());
                 if (i.SSID != null && i.SSID.equals("\"" + networkSSID + "\"")) {
                     wifiManager.disconnect();
                     wifiManager.enableNetwork(i.networkId, true);
@@ -121,7 +122,6 @@ public class MainActivity extends AppCompatActivity implements ControlStickView.
         //String RTSP_URL = "rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mov";
 
         Uri vidUri = Uri.parse(RTSP_URL);
-        //Log.d("uri parse:", vidUri.toString());
         MediaController mediaController = new MediaController(this);
         mediaController.setAnchorView(vidView);
         vidView.setMediaController(mediaController);
@@ -129,7 +129,7 @@ public class MainActivity extends AppCompatActivity implements ControlStickView.
         vidView.start();
 
         overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
-        
+        //connects to the wifi socket to send data
         socketButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -177,40 +177,27 @@ public class MainActivity extends AppCompatActivity implements ControlStickView.
         speedometerS.setSpeed(45);
     }
 
-
+    /**
+     *
+     * @param xPercent Displacement of joystick in X direction
+     * @param yPercent Displacement of joystick in Y direction
+     * @param source Id of each joystick
+     */
     @Override
     public void onJoystickMoved(float xPercent, float yPercent, int source) {
-        //Log.d("id","source" + source);
-        //TextView myTextViewV = (TextView) findViewById(R.id.velocity_amount);
-        //TextView myTextViewS = (TextView) findViewById(R.id.steering_amount);
-
-
         switch (source)
         {
-            //NOTE TO SELF SWAP DEFINITIONS OF LEFT/RIGHT JOYSTICKS!!
-
             case R.id.JoystickLeft:
-                //Log.d("Left joystick", "X percent: " + xPercent + "Y percent: " + yPercent);
-                //steering.set((int) (xPercent * 100));
-                //Log.d("steering", steering.toString());
                 steering.delete(0,steering.length());
                 steering.append((int) (yPercent * -100));
-                //myTextViewS.setText((int) (yPercent*-45) +" deg");
                 myVib.vibrate((int) Math.abs((100* yPercent)/3));
                 speedometerS.setSpeed(Math.abs((int) (yPercent* -45) + 45));
-
-
                 break;
+
             case R.id.JoystickRight:
-                //Log.d("Right joystick","X percent: " + xPercent + "Y percent: " + yPercent);
-                //throttle.set((int) (xPercent * 100));
-                //Log.d("throttle", throttle.toString());
                 throttle.delete(0,throttle.length());
                 throttle.append((int) (yPercent * -100));
                 speedometerV.setSpeed(Math.abs(yPercent *40));
-                //myTextViewV.setText((int) (yPercent*-40/2) + " mi/hr");
-                //myTextViewV.setText((int) (yPercent*-40) + " mi/hr");
-
                 myVib.vibrate((int) Math.abs((100* yPercent)/3));
                 break;
         }

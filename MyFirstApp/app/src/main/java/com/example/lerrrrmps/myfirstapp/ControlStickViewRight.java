@@ -16,6 +16,10 @@ import android.util.AttributeSet;
 import android.content.Context;
 import android.view.View;
 
+
+/**
+ * Joystick class for sending control signals to the raspberry pi
+ */
 public class ControlStickViewRight extends SurfaceView implements SurfaceHolder.Callback, View.OnTouchListener {
 
     private float centerX;
@@ -48,6 +52,10 @@ public class ControlStickViewRight extends SurfaceView implements SurfaceHolder.
             joystickCallback = (JoystickListener) context;
     }
 
+    /**
+     * When the Joystick is first created draws the initial joysticks
+     * @param holder
+     */
     @Override
     public void surfaceCreated(SurfaceHolder holder){
         setupDimensions();
@@ -60,13 +68,21 @@ public class ControlStickViewRight extends SurfaceView implements SurfaceHolder.
     @Override
     public void surfaceDestroyed(SurfaceHolder holder){
     }
-
+    /**
+     * Gets the dimensions of the space the joystick is allocated to
+     */
     private void setupDimensions(){
         centerX = getWidth() / 2;
         centerY = getHeight() / 2;
         baseRadius = Math.min(getWidth(), getHeight()) / 3;
         hatRadius = Math.min(getWidth(), getHeight()) / 4;
     }
+
+    /**
+     * Draws the joysticks at their updated x and y location based on touch data
+     * @param newX X location of touch
+     * @param newY Y location of touch
+     */
 
     @SuppressLint("NewApi")
     private void drawJoystick(float newX, float newY){
@@ -80,6 +96,7 @@ public class ControlStickViewRight extends SurfaceView implements SurfaceHolder.
             Paint colors = new Paint();
             myCanvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
 
+            //Used to make 3-D effect on joystick
             float hypotenuse = (float) Math.sqrt(Math.pow(newX-centerX,2) + Math.pow(newY - centerY,2));
             float sin = (newY - centerY)/hypotenuse;
             float cos = (newX - centerX)/hypotenuse;
@@ -118,6 +135,13 @@ public class ControlStickViewRight extends SurfaceView implements SurfaceHolder.
         }
     }
 
+    /**
+     * Gets the location of the touch and converts them to locations that make sense to draw on based
+     * on constraints of joystick
+     * @param view
+     * @param myEvent Touch event
+     * @return
+     */
     @Override
     public boolean onTouch(View view, MotionEvent myEvent){
         if (view.equals(this)) {
@@ -144,6 +168,9 @@ public class ControlStickViewRight extends SurfaceView implements SurfaceHolder.
         return true;
     }
 
+    /**
+     * Listens for changes in each joystick based on its' ID
+     */
     public interface JoystickListener {
         void onJoystickMoved(float xPercent, float yPercent, int id);
     }

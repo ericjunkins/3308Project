@@ -10,6 +10,9 @@ import android.util.Log;
 
 import java.util.List;
 
+/**
+ * Creates a splash screen to give Wifi time to connect before entering main activity
+ */
 public class SplashScreen extends AppCompatActivity {
     private Context context;
 
