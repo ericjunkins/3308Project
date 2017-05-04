@@ -62,3 +62,7 @@ File Structure:
      Supporting documents -- powerpoints etc
      TestingPrograms -- programs used to test functionality of wifi network etc, not used in final build
      
+Running the code --
+  The android app should be runnable solely from the files in the MyFirstApp folder, in android studio
+  The unittesting and all raspberry pi code requires a physical raspberry pi to run ass it needs access to the 
+    gpio pins onboard of the pi. 
